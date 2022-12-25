@@ -1,3 +1,21 @@
 .header {
-  color: red;
+	color: rgb(197, 175, 54);
+	text-align: center;
+}
+
+ul {
+	padding-bottom: 4px;
+}
+
+.comment {
+	padding-bottom: 20px;
+}
+
+.showCommentsToggle {
+	margin-top: 4px;
+	margin-bottom: 4px;
+}
+
+body {
+	background-color: whitesmoke;
 }

@@ -1,59 +1,98 @@
-export interface Comment {
-  by: string;
-  id: number;
-  kids: number[];
-  parent: number;
-  text: string;
-  time: number;
-  type: string;
-}
+import { Story, StoryWithComments } from "../models/story";
+import { Comment } from "../models/comment";
 
-export interface Story {
-  by: string;
-  id: number;
-  descendants: number[];
-  kids: number[];
-  score: number;
-  time: number;
-  title: string;
-  type: string;
-  url: string;
-}
+const NUMBER_OF_STORIES_TO_SHOW = 5;
 
-export const fetchLastComment = async (): Promise<Comment> => {
-  let comment = {} as Comment;
-  let apiResponse = await fetch(
-    "https://hacker-news.firebaseio.com/v0/maxitem.json"
-  );
-  let maxItemId: number = await apiResponse.json();
+export const getStoryById = async (id: number): Promise<Story | undefined> => {
+	const response: Response = await fetch(
+		`https://hacker-news.firebaseio.com/v0/item/${id}.json`
+	);
+	const story: Story = await response.json();
 
-  do {
-    apiResponse = await fetch(
-      `https://hacker-news.firebaseio.com/v0/item/${maxItemId}.json`
-    );
-    comment = await apiResponse.json();
-    maxItemId--;
-  } while (!comment?.id && maxItemId > 1);
+	if (story && "type" in story && story.type === "story") {
+		return story;
+	}
 
-  return comment;
+	return undefined;
 };
 
-export const fetchTopStories = async (): Promise<Story[]> => {
-  let apiResponse = await fetch(
-    "https://hacker-news.firebaseio.com/v0/topstories.json"
-  );
-  const storiesIds: number[] = await apiResponse.json();
-  const stories: Story[] = [];
+const getTopStoriesIds = async (): Promise<number[]> => {
+	const response: Response = await fetch(
+		"https://hacker-news.firebaseio.com/v0/topstories.json"
+	);
+	return response.json();
+};
 
-  await Promise.all(
-    storiesIds.slice(0, 10).map(async (id) => {
-      apiResponse = await fetch(
-        `https://hacker-news.firebaseio.com/v0/item/${id}.json`
-      );
-      const story: Story = await apiResponse.json();
-      stories.push(story);
-    })
-  );
+export const getTopStories = async (): Promise<Story[]> => {
+	const topStoriesIds = (await getTopStoriesIds()).slice(
+		0,
+		NUMBER_OF_STORIES_TO_SHOW
+	);
+	const stories: Story[] = [];
 
-  return stories;
+	await Promise.all(
+		topStoriesIds.map(async (id: number) => {
+			const story: Story | undefined = await getStoryById(id);
+			if (story) {
+				stories.push(story);
+			}
+		})
+	);
+
+	return stories;
+};
+
+const getCommentById = async (id: number): Promise<Comment> => {
+	const response: Response = await fetch(
+		`https://hacker-news.firebaseio.com/v0/item/${id}.json`
+	);
+	return response.json();
+};
+
+const enrichStoryWithTopLevelComments = async (
+	story: Story
+): Promise<Comment[]> => {
+	const comments: Comment[] = [];
+
+	await Promise.all(
+		story.kids?.map(async (kidId: number) => {
+			const comment: Comment = await getCommentById(kidId);
+			if (comment && !comment.deleted) {
+				comments.push(comment);
+			}
+		})
+	);
+
+	return comments;
+};
+
+export const mapCommentsToStories = async (
+	stories: Story[]
+): Promise<StoryWithComments[]> => {
+	const storiesWithComments: StoryWithComments[] = [];
+
+	await Promise.all(
+		stories.map(async (story: Story) => {
+			const storyWithComments: StoryWithComments =
+				await mapCommentsToStory(story);
+
+			storiesWithComments.push(storyWithComments);
+		})
+	);
+
+	return storiesWithComments;
+};
+
+export const mapCommentsToStory = async (
+	story: Story
+): Promise<StoryWithComments> => {
+	const commentsForStory: Comment[] = await enrichStoryWithTopLevelComments(
+		story
+	);
+
+	return {
+		storyItself: story,
+		comments: commentsForStory,
+		showComments: false,
+	};
 };
