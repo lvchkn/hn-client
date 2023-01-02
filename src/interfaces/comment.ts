@@ -1,4 +1,4 @@
-export interface Comment {
+export interface IComment {
 	by: string;
 	id: number;
 	kids: number[];
