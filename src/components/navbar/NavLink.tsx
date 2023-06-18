@@ -18,7 +18,7 @@ const getClasses = (context: Context): string => {
     const { isRouteActive, location, children, className } = context;
 
     const isDefaultPage =
-        children?.toString() === "Top" && location === "/hn-client";
+        children?.toString() === "Top" && location === "/hn-client/";
     console.log("loc", location);
     console.log("content", children?.toString() ?? "err");
     if (isDefaultPage || isRouteActive) {
