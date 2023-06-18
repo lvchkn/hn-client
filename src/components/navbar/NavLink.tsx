@@ -17,7 +17,8 @@ interface Context {
 const getClasses = (context: Context): string => {
     const { isRouteActive, location, children, className } = context;
 
-    const isDefaultPage = children?.toString() === "Top" && location === "/";
+    const isDefaultPage =
+        children?.toString() === "Top" && location === "/hn-client";
 
     if (isDefaultPage || isRouteActive) {
         return `${className} active`;
