@@ -6,41 +6,41 @@ import { traverseComments } from "../../utils/apiFetcher";
 import { getSortedComments } from "../../utils/sorter";
 
 export interface CommentsListProps {
-	storyId: number;
-	kids: number[];
-	showComments: boolean;
-	handleLoadingStatusChange: (isLoading: boolean) => void;
+    storyId: number;
+    kids: number[];
+    showComments: boolean;
+    handleLoadingStatusChange: (isLoading: boolean) => void;
 }
 
 export const CommentsList = (props: CommentsListProps) => {
-	const query = useQuery<IComment[], Error>({
-		queryKey: [props.storyId],
-		queryFn: () => traverseComments(props.kids),
-		enabled: props.showComments,
-		staleTime: 300_000,
-	});
+    const query = useQuery<IComment[], Error>({
+        queryKey: [props.storyId],
+        queryFn: () => traverseComments(props.kids),
+        enabled: props.showComments,
+        staleTime: 300_000,
+    });
 
-	const sortedComments = query.data && getSortedComments(query.data);
+    const sortedComments = query.data && getSortedComments(query.data);
 
-	useEffect(() => {
-		props.handleLoadingStatusChange(query.isLoading);
-	});
+    useEffect(() => {
+        props.handleLoadingStatusChange(query.isLoading);
+    });
 
-	return (
-		<>
-			{sortedComments?.map((comment: IComment) => {
-				const { id, by, text, kidComments } = comment;
+    return (
+        <>
+            {sortedComments?.map((comment: IComment) => {
+                const { id, by, text, kidComments } = comment;
 
-				return (
-					<Comment
-						key={id}
-						id={id}
-						author={by}
-						text={text}
-						kidComments={kidComments}
-					></Comment>
-				);
-			})}
-		</>
-	);
+                return (
+                    <Comment
+                        key={id}
+                        id={id}
+                        author={by}
+                        text={text}
+                        kidComments={kidComments}
+                    ></Comment>
+                );
+            })}
+        </>
+    );
 };

@@ -9,9 +9,9 @@ const element = document.getElementById("root");
 const root = element && createRoot(element);
 
 root?.render(
-	<StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<App />
-		</QueryClientProvider>
-	</StrictMode>
+    <StrictMode>
+        <QueryClientProvider client={queryClient}>
+            <App />
+        </QueryClientProvider>
+    </StrictMode>
 );

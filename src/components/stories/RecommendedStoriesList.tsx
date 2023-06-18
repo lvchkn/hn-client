@@ -6,33 +6,33 @@ import { IStory } from "../../interfaces/story";
 import { StoriesLoader } from "../loader/StoriesLoader";
 
 export const RecommendedStoriesList = () => {
-	const query = useQuery<IStory[], Error>({
-		queryKey: ["getRecommendedStories"],
-		queryFn: getRecommendedStories,
-	});
+    const query = useQuery<IStory[], Error>({
+        queryKey: ["getRecommendedStories"],
+        queryFn: getRecommendedStories,
+    });
 
-	const sortedStories = query.data && getSortedStories(query.data);
+    const sortedStories = query.data && getSortedStories(query.data);
 
-	return query.isFetched ? (
-		<>
-			{sortedStories?.map((story) => {
-				const { id, score, title, url, kids } = story;
+    return query.isFetched ? (
+        <>
+            {sortedStories?.map((story) => {
+                const { id, score, title, url, kids } = story;
 
-				return (
-					<div key={id}>
-						<Story
-							id={id}
-							score={score}
-							title={title}
-							url={url}
-							kids={kids}
-						></Story>
-						<hr></hr>
-					</div>
-				);
-			})}
-		</>
-	) : (
-		<StoriesLoader />
-	);
+                return (
+                    <div key={id}>
+                        <Story
+                            id={id}
+                            score={score}
+                            title={title}
+                            url={url}
+                            kids={kids}
+                        ></Story>
+                        <hr></hr>
+                    </div>
+                );
+            })}
+        </>
+    ) : (
+        <StoriesLoader />
+    );
 };
