@@ -1,28 +1,44 @@
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { IComment } from "../../interfaces/comment";
-import { getCommentsForStory } from "../../utils/apiFetcher";
-import { getSortedComments } from "../../utils/sorter";
 import { Comment } from "./Comment";
+import { IComment } from "../../interfaces/comment";
+import { traverseComments } from "../../utils/apiFetcher";
+import { getSortedComments } from "../../utils/sorter";
 
 export interface CommentsListProps {
 	storyId: number;
+	kids: number[];
+	showComments: boolean;
+	handleLoadingStatusChange: (isLoading: boolean) => void;
 }
 
 export const CommentsList = (props: CommentsListProps) => {
 	const query = useQuery<IComment[], Error>({
 		queryKey: [props.storyId],
-		queryFn: () => getCommentsForStory(props.storyId),
+		queryFn: () => traverseComments(props.kids),
+		enabled: props.showComments,
+		staleTime: 300_000,
 	});
 
 	const sortedComments = query.data && getSortedComments(query.data);
 
+	useEffect(() => {
+		props.handleLoadingStatusChange(query.isLoading);
+	});
+
 	return (
 		<>
 			{sortedComments?.map((comment: IComment) => {
-				const { id, by, text } = comment;
+				const { id, by, text, kidComments } = comment;
 
 				return (
-					<Comment key={id} id={id} author={by} text={text}></Comment>
+					<Comment
+						key={id}
+						id={id}
+						author={by}
+						text={text}
+						kidComments={kidComments}
+					></Comment>
 				);
 			})}
 		</>

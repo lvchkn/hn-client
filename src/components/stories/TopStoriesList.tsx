@@ -1,10 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
+import { Story } from "./Story";
 import { IStory } from "../../interfaces/story";
 import { getTopStories } from "../../utils/apiFetcher";
 import { getSortedStories } from "../../utils/sorter";
-import { Story } from "./Story";
+import { StoriesLoader } from "../loader/StoriesLoader";
 
-export const StoriesList = () => {
+export const TopStoriesList = () => {
 	const query = useQuery<IStory[], Error>({
 		queryKey: ["getTopStories"],
 		queryFn: getTopStories,
@@ -12,10 +13,10 @@ export const StoriesList = () => {
 
 	const sortedStories = query.data && getSortedStories(query.data);
 
-	return (
+	return query.isFetched ? (
 		<>
 			{sortedStories?.map((story) => {
-				const { id, score, title, url } = story;
+				const { id, score, title, url, kids } = story;
 
 				return (
 					<div key={id}>
@@ -24,11 +25,14 @@ export const StoriesList = () => {
 							score={score}
 							title={title}
 							url={url}
+							kids={kids}
 						></Story>
 						<hr></hr>
 					</div>
 				);
 			})}
 		</>
+	) : (
+		<StoriesLoader />
 	);
 };

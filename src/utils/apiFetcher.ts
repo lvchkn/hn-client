@@ -2,18 +2,23 @@ import { IStory } from "../interfaces/story";
 import { IComment } from "../interfaces/comment";
 
 const NUMBER_OF_STORIES_TO_SHOW = 5;
+type Item = IComment | IStory;
 
-const getStoryById = async (id: number): Promise<IStory | undefined> => {
+const isStory = (item: Item): item is IStory => {
+	return (item as IStory) !== undefined;
+};
+
+const isComment = (item: Item): item is IComment => {
+	return (item as IComment) !== undefined;
+};
+
+const getItemById = async (id: number): Promise<Item> => {
 	const response: Response = await fetch(
 		`https://hacker-news.firebaseio.com/v0/item/${id}.json`
 	);
-	const story: IStory = await response.json();
+	const item: Item = await response.json();
 
-	if (story && "type" in story && story.type === "story") {
-		return story;
-	}
-
-	return undefined;
+	return item;
 };
 
 const getTopStoriesIds = async (): Promise<number[]> => {
@@ -32,9 +37,9 @@ export const getTopStories = async (): Promise<IStory[]> => {
 
 	await Promise.all(
 		topStoriesIds.map(async (id: number) => {
-			const story: IStory | undefined = await getStoryById(id);
-			if (story) {
-				stories.push(story);
+			const item: Item = await getItemById(id);
+			if (isStory(item)) {
+				stories.push(item);
 			}
 		})
 	);
@@ -42,40 +47,65 @@ export const getTopStories = async (): Promise<IStory[]> => {
 	return stories;
 };
 
-const getCommentById = async (id: number): Promise<IComment> => {
-	const response: Response = await fetch(
-		`https://hacker-news.firebaseio.com/v0/item/${id}.json`
-	);
-	return response.json();
+export const getRecommendedStories = async (): Promise<IStory[]> => {
+	return [
+		{
+			by: "Developer",
+			id: 0,
+			descendants: [],
+			kids: [],
+			score: 0,
+			time: 0,
+			title: "Recommended stories feature coming soon! (hopefully)",
+			type: "story",
+			url: "http://localhost:8080",
+		},
+	];
 };
 
-const enrichStoryWithTopLevelComments = async (
-	story: IStory
-): Promise<IComment[]> => {
-	const comments: IComment[] = [];
+export const getFavouriteStories = async (): Promise<IStory[]> => {
+	return [
+		{
+			by: "Developer",
+			id: 0,
+			descendants: [],
+			kids: [],
+			score: 0,
+			time: 0,
+			title: "Favourite stories feature coming soon! (hopefully)",
+			type: "story",
+			url: "http://localhost:8080",
+		},
+	];
+};
 
-	await Promise.all(
-		story.kids?.map(async (kidId: number) => {
-			const comment: IComment = await getCommentById(kidId);
-			if (comment && !comment.deleted) {
-				comments.push(comment);
+export const traverseComments = async (kids: number[]): Promise<IComment[]> => {
+	if (!kids || kids.length === 0) {
+		return [];
+	}
+
+	return await Promise.all(
+		kids.map(async (kidId: number) => {
+			const item: Item = await getItemById(kidId);
+			if (item && isComment(item) && !item.deleted && item.kids) {
+				item.kidComments = await traverseComments(item.kids);
+				return item;
 			}
+
+			if (item && isComment(item) && item.deleted) {
+				return {
+					id: item.id,
+					by: "deleted",
+					type: "comment",
+					time: item.time,
+					kids: [],
+					kidComments: [],
+					parent: item.parent,
+					deleted: true,
+					text: "deleted",
+				};
+			}
+			return <IComment>item;
 		})
 	);
-
-	return comments;
-};
-
-export const getCommentsForStory = async (
-	storyId: number
-): Promise<IComment[]> => {
-	const story: IStory | undefined = await getStoryById(storyId);
-
-	if (!story) throw "No story found";
-
-	const commentsForStory: IComment[] = await enrichStoryWithTopLevelComments(
-		story
-	);
-
-	return commentsForStory;
 };
