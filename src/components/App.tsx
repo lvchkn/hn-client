@@ -10,7 +10,7 @@ export const App = () => {
         <>
             <div className="header">
                 <h1>
-                    <Link href="/">Hacker News Feed </Link>
+                    <Link href="/hn-client">Hacker News Feed </Link>
                 </h1>
                 <h2 className="login">Login Placeholder!</h2>
             </div>
@@ -26,7 +26,7 @@ export const App = () => {
                 </NavLink>
             </div>
             <div>
-                <Route path="/">{<TopStoriesList />}</Route>
+                <Route path="/hn-client">{<TopStoriesList />}</Route>
                 <Route path="/top">{<TopStoriesList />}</Route>
                 <Route path="/recs">{<RecommendedStoriesList />}</Route>
                 <Route path="/favs">{<FavouriteStoriesList />}</Route>
