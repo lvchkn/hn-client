@@ -1,8 +1,47 @@
-.header {
-	color: rgb(197, 175, 54);
-	text-align: center;
+h1 {
+    font-size: 2em;
+    text-align: center;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+a {
+    text-decoration: none;
+}
+
+h2 {
+    font-size: 1em;
 }
 
 body {
-	background-color: whitesmoke;
+    background-color: whitesmoke;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    color: rgb(25 22 126);
+}
+
+.tabs {
+    display: flex;
+    background-color: rgb(25 22 126);
+}
+
+.tab {
+    padding: 0px 30px;
+    color: whitesmoke;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.active {
+    color: black;
+    background-color: whitesmoke;
 }

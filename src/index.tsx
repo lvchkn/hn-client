@@ -6,12 +6,12 @@ import { App } from "./components/App";
 const queryClient = new QueryClient();
 
 const element = document.getElementById("root");
-const root = createRoot(element!);
+const root = element && createRoot(element);
 
-root.render(
-	<StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<App />
-		</QueryClientProvider>
-	</StrictMode>
+root?.render(
+    <StrictMode>
+        <QueryClientProvider client={queryClient}>
+            <App />
+        </QueryClientProvider>
+    </StrictMode>
 );
