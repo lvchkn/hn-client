@@ -19,7 +19,6 @@ module.exports = {
             },
         ],
     },
-    devServer: {},
     plugins: [
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, "../index.html"),
