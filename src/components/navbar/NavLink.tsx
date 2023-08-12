@@ -3,7 +3,7 @@ import { useRoute, useLocation, Link } from "wouter";
 
 export interface NavLinkProps {
     href: string;
-    className: string;
+    className?: string;
     children: ReactNode;
 }
 
@@ -11,14 +11,18 @@ interface Context {
     isRouteActive: boolean;
     location: string;
     children: ReactNode;
-    className: string;
+    className?: string;
 }
 
 const getClasses = (context: Context): string => {
     const { isRouteActive, location, children, className } = context;
 
-    const isDefaultPage =
-        children?.toString() === "Top" && location === "/hn-client/";
+    if (!className) return "";
+
+    const isDefaultPage: boolean =
+        children?.toString() === "Top" &&
+        (location === "/hn-client" || location === "/");
+
     if (isDefaultPage || isRouteActive) {
         return `${className} active`;
     } else {

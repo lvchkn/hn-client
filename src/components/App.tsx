@@ -1,4 +1,6 @@
-import { Link, Route } from "wouter";
+import { Redirect, Route, Router } from "wouter";
+import { navigate, useLocationProperty } from "wouter/use-location";
+import { useAuth } from "./auth/AuthProvider";
 import { TopStoriesList } from "./stories/TopStoriesList";
 import { NavLink } from "./navbar/NavLink";
 import { RecommendedStoriesList } from "./stories/RecommendedStoriesList";
@@ -6,13 +8,28 @@ import { FavouriteStoriesList } from "./stories/FavouritedStoriesList";
 import "./app.css";
 
 export const App = () => {
+    const hashLocation = () => window.location.hash.replace(/^#/, "") || "/";
+
+    const hashNavigate = (to: string) => navigate("#" + to);
+
+    const useHashLocation = (): [string, (nav: string) => void] => {
+        const location = useLocationProperty(hashLocation);
+        return [location, hashNavigate];
+    };
+
+    const { login } = useAuth();
+
     return (
-        <>
+        <Router hook={useHashLocation}>
             <div className="header">
                 <h1>
-                    <Link href="/hn-client">Hacker News Feed </Link>
+                    <NavLink href="/hn-client">Hacker News Feed </NavLink>
                 </h1>
-                <h2 className="login">Login Placeholder!</h2>
+                {process.env.REACT_APP_AUTH_ENABLED && (
+                    <button onClick={login} className="login-button">
+                        Login
+                    </button>
+                )}
             </div>
             <div className="tabs">
                 <NavLink href="/top" className="tab">
@@ -25,12 +42,16 @@ export const App = () => {
                     Favs
                 </NavLink>
             </div>
-            <div>
-                <Route path="/hn-client">{<TopStoriesList />}</Route>
-                <Route path="/top">{<TopStoriesList />}</Route>
-                <Route path="/recs">{<RecommendedStoriesList />}</Route>
-                <Route path="/favs">{<FavouriteStoriesList />}</Route>
-            </div>
-        </>
+
+            <Route path="/">
+                <Redirect to="/hn-client" />
+                {<TopStoriesList />}
+            </Route>
+
+            <Route path="/hn-client">{<TopStoriesList />}</Route>
+            <Route path="/top">{<TopStoriesList />}</Route>
+            <Route path="/recs">{<RecommendedStoriesList />}</Route>
+            <Route path="/favs">{<FavouriteStoriesList />}</Route>
+        </Router>
     );
 };
