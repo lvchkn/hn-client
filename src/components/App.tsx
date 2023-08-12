@@ -23,7 +23,7 @@ export const App = () => {
         <Router hook={useHashLocation}>
             <div className="header">
                 <h1>
-                    <NavLink href="/hn-client">Hacker News Feed </NavLink>
+                    <NavLink href="/">Hacker News Feed </NavLink>
                 </h1>
                 {process.env.REACT_APP_AUTH_ENABLED && (
                     <button onClick={login} className="login-button">
