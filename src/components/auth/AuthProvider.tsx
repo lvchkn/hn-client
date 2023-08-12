@@ -38,7 +38,7 @@ export const AuthProvider = (props: AuthProps) => {
     };
 
     useEffect(() => {
-        getUser();
+        process.env.REACT_APP_AUTH_ENABLED && getUser();
     }, []);
 
     const login = () => {

@@ -43,12 +43,12 @@ export const App = () => {
                 </NavLink>
             </div>
 
-            <Route path="/">
-                <Redirect to="/hn-client" />
+            <Route path="/hn-client">
+                <Redirect to="/" />
                 {<TopStoriesList />}
             </Route>
 
-            <Route path="/hn-client">{<TopStoriesList />}</Route>
+            <Route path="/">{<TopStoriesList />}</Route>
             <Route path="/top">{<TopStoriesList />}</Route>
             <Route path="/recs">{<RecommendedStoriesList />}</Route>
             <Route path="/favs">{<FavouriteStoriesList />}</Route>
