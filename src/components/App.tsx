@@ -26,7 +26,9 @@ export const App = () => {
                     <NavLink href="/hn-client">Hacker News Feed </NavLink>
                 </h1>
                 {process.env.REACT_APP_AUTH_ENABLED && (
-                    <button onClick={login}>Login</button>
+                    <button onClick={login} className="login-button">
+                        Login
+                    </button>
                 )}
             </div>
             <div className="tabs">
