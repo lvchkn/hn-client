@@ -1,6 +1,6 @@
 import { Redirect, Route, Router } from "wouter";
 import { navigate, useLocationProperty } from "wouter/use-location";
-import { AuthProvider, useAuth } from "./auth/AuthProvider";
+import { useAuth } from "./auth/AuthProvider";
 import { TopStoriesList } from "./stories/TopStoriesList";
 import { NavLink } from "./navbar/NavLink";
 import { RecommendedStoriesList } from "./stories/RecommendedStoriesList";
@@ -17,55 +17,39 @@ export const App = () => {
         return [location, hashNavigate];
     };
 
-    const { login, logout } = useAuth();
+    const { login } = useAuth();
 
     return (
-        <AuthProvider>
-            <Router hook={useHashLocation}>
-                <div className="header">
-                    <h1>
-                        <NavLink href="/hn-client">Hacker News Feed </NavLink>
-                    </h1>
-                    {process.env.REACT_APP_AUTH_ENABLED && (
-                        <NavLink href="/login">Login</NavLink>
-                    )}
-                </div>
-                <div className="tabs">
-                    <NavLink href="/top" className="tab">
-                        Top
-                    </NavLink>
-                    <NavLink href="/recs" className="tab">
-                        Recs
-                    </NavLink>
-                    <NavLink href="/favs" className="tab">
-                        Favs
-                    </NavLink>
-                </div>
+        <Router hook={useHashLocation}>
+            <div className="header">
+                <h1>
+                    <NavLink href="/hn-client">Hacker News Feed </NavLink>
+                </h1>
+                {process.env.REACT_APP_AUTH_ENABLED && (
+                    <button onClick={login}>Login</button>
+                )}
+            </div>
+            <div className="tabs">
+                <NavLink href="/top" className="tab">
+                    Top
+                </NavLink>
+                <NavLink href="/recs" className="tab">
+                    Recs
+                </NavLink>
+                <NavLink href="/favs" className="tab">
+                    Favs
+                </NavLink>
+            </div>
 
-                <Route path="/">
-                    <Redirect to="/hn-client" />
-                    {<TopStoriesList />}
-                </Route>
+            <Route path="/">
+                <Redirect to="/hn-client" />
+                {<TopStoriesList />}
+            </Route>
 
-                <Route path="/login">
-                    {() => {
-                        login();
-                        return null;
-                    }}
-                </Route>
-
-                <Route path="/logout">
-                    {() => {
-                        logout();
-                        return null;
-                    }}
-                </Route>
-
-                <Route path="/hn-client">{<TopStoriesList />}</Route>
-                <Route path="/top">{<TopStoriesList />}</Route>
-                <Route path="/recs">{<RecommendedStoriesList />}</Route>
-                <Route path="/favs">{<FavouriteStoriesList />}</Route>
-            </Router>
-        </AuthProvider>
+            <Route path="/hn-client">{<TopStoriesList />}</Route>
+            <Route path="/top">{<TopStoriesList />}</Route>
+            <Route path="/recs">{<RecommendedStoriesList />}</Route>
+            <Route path="/favs">{<FavouriteStoriesList />}</Route>
+        </Router>
     );
 };
