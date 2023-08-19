@@ -35,11 +35,11 @@ export const App = () => {
                 <NavLink href="/top" className="tab">
                     Top
                 </NavLink>
-                <NavLink href="/recs" className="tab">
-                    Recs
-                </NavLink>
                 <NavLink href="/favs" className="tab">
                     Favs
+                </NavLink>
+                <NavLink href="/recs" className="tab">
+                    Recs
                 </NavLink>
             </div>
 
@@ -50,8 +50,8 @@ export const App = () => {
 
             <Route path="/">{<TopStoriesList />}</Route>
             <Route path="/top">{<TopStoriesList />}</Route>
-            <Route path="/recs">{<RecommendedStoriesList />}</Route>
             <Route path="/favs">{<FavouriteStoriesList />}</Route>
+            <Route path="/recs">{<RecommendedStoriesList />}</Route>
         </Router>
     );
 };
