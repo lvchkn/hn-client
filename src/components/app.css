@@ -48,9 +48,18 @@ body {
     font-weight: 600;
     font-size: 20px;
     text-decoration: none;
+    border: 1px solid rgb(25 22 126);
 }
 
 .active {
-    color: black;
+    color: dimgray;
     background-color: whitesmoke;
+}
+
+.tab:hover {
+    background-color: rgb(25, 22, 226);
+}
+
+.active:hover {
+    background-color: gainsboro;
 }

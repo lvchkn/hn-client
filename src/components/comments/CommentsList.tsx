@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Comment } from "./Comment";
 import { IComment } from "../../interfaces/comment";
 import { traverseComments } from "../../utils/apiFetcher";
-import { getSortedComments } from "../../utils/sorter";
+import { sortComments } from "../../utils/sorter";
 
 export interface CommentsListProps {
     storyId: number;
@@ -20,7 +20,7 @@ export const CommentsList = (props: CommentsListProps) => {
         staleTime: 300_000,
     });
 
-    const sortedComments = query.data && getSortedComments(query.data);
+    const sortedComments = query.data && sortComments(query.data);
 
     useEffect(() => {
         props.handleLoadingStatusChange(query.isLoading);

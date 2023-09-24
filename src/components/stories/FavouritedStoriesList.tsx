@@ -2,7 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { Story } from "./Story";
 import { IStory } from "../../interfaces/story";
 import { getFavouriteStories } from "../../utils/apiFetcher";
-import { getSortedStories } from "../../utils/sorter";
 import { StoriesLoader } from "../loader/StoriesLoader";
 
 export const FavouriteStoriesList = () => {
@@ -11,7 +10,7 @@ export const FavouriteStoriesList = () => {
         queryFn: getFavouriteStories,
     });
 
-    const sortedStories = query.data && getSortedStories(query.data);
+    const sortedStories = query.data;
 
     return query.isFetched ? (
         <>

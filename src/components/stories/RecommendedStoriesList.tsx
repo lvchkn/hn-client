@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { Story } from "./Story";
 import { getRecommendedStories } from "../../utils/apiFetcher";
-import { getSortedStories } from "../../utils/sorter";
 import { IStory } from "../../interfaces/story";
 import { StoriesLoader } from "../loader/StoriesLoader";
 
@@ -11,7 +10,7 @@ export const RecommendedStoriesList = () => {
         queryFn: getRecommendedStories,
     });
 
-    const sortedStories = query.data && getSortedStories(query.data);
+    const sortedStories = query.data;
 
     return query.isFetched ? (
         <>

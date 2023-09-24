@@ -1,5 +1,6 @@
 import { IStory } from "../interfaces/story";
 import { IComment } from "../interfaces/comment";
+import { SortField, SortOrder } from "../components/processing/Processing";
 
 const NUMBER_OF_STORIES_TO_SHOW = 5;
 type Item = IComment | IStory;
@@ -45,6 +46,19 @@ export const getTopStories = async (): Promise<IStory[]> => {
     );
 
     return stories;
+};
+
+export const getTopStoriesFromCustomApi = async (
+    search: string,
+    sortOrder: SortOrder,
+    sortField: SortField
+): Promise<IStory[]> => {
+    const response: Response = await fetch(
+        `/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=1&pageSize=5&search=${search}`,
+        { credentials: "include" }
+    );
+    const resp = response.status < 400 ? response.json() : [];
+    return resp;
 };
 
 export const getRecommendedStories = async (): Promise<IStory[]> => {
