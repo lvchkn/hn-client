@@ -1,0 +1,70 @@
+.search {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin-left: 20px;
+    color: dimgray;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.sort-field,
+.sort-order {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin-top: 20px;
+    margin-left: 20px;
+    color: dimgray;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.search-input,
+.sort-field-select,
+.sort-order-select {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    margin-top: 10px;
+    color: dimgray;
+    font-size: 16px;
+    font-weight: 300;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.options-panel {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.options-panel-button {
+    background-color: whitesmoke;
+    color: dimgray;
+    border: 1px solid dimgray;
+    margin-top: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 16px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.options-panel-button:hover {
+    background-color: gainsboro;
+}
+
+.options-panel-content {
+    background-color: whitesmoke;
+    padding: 20px;
+}
+
+.line {
+    margin-top: 10px;
+    width: 100%;
+}

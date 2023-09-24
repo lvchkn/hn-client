@@ -19,9 +19,15 @@ module.exports = merge(common, {
             },
         ],
     },
+    devServer: {
+        proxy: {
+            "/api/**": { target: "https://localhost:7245", secure: false },
+        },
+    },
     plugins: [
         new webpack.DefinePlugin({
             "process.env.REACT_APP_AUTH_ENABLED": JSON.stringify(true),
+            "process.env.REACT_APP_USE_HN_API": JSON.stringify(false),
         }),
     ],
 });
