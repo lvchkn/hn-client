@@ -51,10 +51,12 @@ export const getTopStories = async (): Promise<IStory[]> => {
 export const getTopStoriesFromCustomApi = async (
     search: string,
     sortOrder: SortOrder,
-    sortField: SortField
+    sortField: SortField,
+    pageNumber: number,
+    pageSize: number
 ): Promise<IStory[]> => {
     const response: Response = await fetch(
-        `/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=1&pageSize=5&search=${search}`,
+        `/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`,
         { credentials: "include" }
     );
     const resp = response.status < 400 ? response.json() : [];
