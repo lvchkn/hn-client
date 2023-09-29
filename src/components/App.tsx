@@ -23,7 +23,9 @@ export const App = () => {
         <Router hook={useHashLocation}>
             <div className="header">
                 <h1>
-                    <NavLink href="/">Hacker News Feed</NavLink>
+                    <NavLink href="/" isDefaultPage={true}>
+                        Hacker News Feed
+                    </NavLink>
                 </h1>
                 {process.env.REACT_APP_AUTH_ENABLED && (
                     <button onClick={login} className="login-button">
@@ -32,13 +34,13 @@ export const App = () => {
                 )}
             </div>
             <div className="tabs">
-                <NavLink href="/top" className="tab">
+                <NavLink href="/top" className="tab" isDefaultPage={true}>
                     Top
                 </NavLink>
-                <NavLink href="/favs" className="tab">
+                <NavLink href="/favs" className="tab" isDefaultPage={false}>
                     Favs
                 </NavLink>
-                <NavLink href="/recs" className="tab">
+                <NavLink href="/recs" className="tab" isDefaultPage={false}>
                     Recs
                 </NavLink>
             </div>
@@ -50,6 +52,7 @@ export const App = () => {
 
             <Route path="/">{<TopStoriesList />}</Route>
             <Route path="/top">{<TopStoriesList />}</Route>
+            <Route path="/top/:page" component={TopStoriesList}></Route>
             <Route path="/favs">{<FavouriteStoriesList />}</Route>
             <Route path="/recs">{<RecommendedStoriesList />}</Route>
         </Router>

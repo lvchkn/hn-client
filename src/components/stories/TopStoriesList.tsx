@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useRoute } from "wouter";
 import { Story } from "./Story";
 import { StoriesLoader } from "../loader/StoriesLoader";
+import { Paging } from "../processing/Paging";
 import { Processing, SortField, SortOrder } from "../processing/Processing";
 import { IStory } from "../../interfaces/story";
 import {
@@ -10,16 +12,29 @@ import {
 } from "../../utils/apiFetcher";
 import { sortStories } from "../../utils/sorter";
 
+const PAGE_SIZE = 2;
+
 export const TopStoriesList = () => {
     const [search, setSearch] = useState<string>("");
     const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
     const [sortField, setSortField] = useState<SortField>("score");
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_, params] = useRoute("/top/:page");
+
+    const pageNumber = parseInt(params?.page ?? "") || 1;
 
     const query = useQuery<IStory[], Error>({
-        queryKey: [search, sortOrder, sortField],
-        queryFn: process.env.REACT_APP_USE_HN_API
-            ? () => getTopStories()
-            : () => getTopStoriesFromCustomApi(search, sortOrder, sortField),
+        queryKey: [search, sortOrder, sortField, pageNumber],
+        queryFn: process.env.REACT_APP_USE_CUSTOM_API
+            ? () =>
+                  getTopStoriesFromCustomApi(
+                      search,
+                      sortOrder,
+                      sortField,
+                      pageNumber,
+                      PAGE_SIZE
+                  )
+            : getTopStories,
         staleTime: 3_000,
     });
 
@@ -35,15 +50,18 @@ export const TopStoriesList = () => {
         setSortField(field);
     };
 
-    const processedData = process.env.REACT_APP_USE_HN_API
-        ? sortStories(query.data, sortOrder, sortField, search)
-        : query.data;
+    const processedData = process.env.REACT_APP_USE_CUSTOM_API
+        ? query.data
+        : sortStories(query.data, sortOrder, sortField, search);
 
     return (
         <>
             <Processing
+                searchText={search}
                 search={handleSearch}
+                sortOrder={sortOrder}
                 changeSortOrder={handleSortOrderChange}
+                sortField={sortField}
                 changeSortField={handleSortFieldChange}
             />
             {query.isFetched ? (
@@ -66,6 +84,8 @@ export const TopStoriesList = () => {
             ) : (
                 <StoriesLoader />
             )}
+
+            <Paging pageNumber={pageNumber} />
         </>
     );
 };

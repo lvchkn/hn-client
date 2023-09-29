@@ -2,8 +2,11 @@ import { ChangeEvent, useState } from "react";
 import "./processing.css";
 
 interface ProcessingProps {
+    searchText: string;
     search: (search: string) => void;
+    sortOrder: SortOrder;
     changeSortOrder: (order: SortOrder) => void;
+    sortField: SortField;
     changeSortField: (field: SortField) => void;
 }
 
@@ -11,21 +14,30 @@ export type SortOrder = "asc" | "desc";
 export type SortField = "score" | "title" | "id";
 
 export const Processing = (props: ProcessingProps) => {
+    const {
+        searchText,
+        search,
+        sortOrder,
+        changeSortOrder,
+        sortField,
+        changeSortField,
+    } = props;
+
     const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
     const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
-        props.search(e.target.value);
+        search(e.target.value);
     };
 
     const handleSortFieldChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        props.changeSortField(e.target.value as SortField);
+        changeSortField(e.target.value as SortField);
     };
 
     const handleSortOrderChange = (e: ChangeEvent<HTMLSelectElement>) => {
-        props.changeSortOrder(e.target.value as SortOrder);
+        changeSortOrder(e.target.value as SortOrder);
     };
 
-    const handle = () => {
+    const handleExpandOptions = () => {
         setIsExpanded(!isExpanded);
     };
 
@@ -33,7 +45,10 @@ export const Processing = (props: ProcessingProps) => {
 
     return (
         <div className="options-panel">
-            <button className="options-panel-button" onClick={handle}>
+            <button
+                className="options-panel-button"
+                onClick={handleExpandOptions}
+            >
                 {optionsText}
             </button>
             {isExpanded ? (
@@ -44,7 +59,7 @@ export const Processing = (props: ProcessingProps) => {
                             <input
                                 type="text"
                                 onChange={handleSearch}
-                                defaultValue=""
+                                value={searchText}
                                 className="search-input"
                             />
                         </span>
@@ -55,7 +70,7 @@ export const Processing = (props: ProcessingProps) => {
                                 id="fields"
                                 onChange={handleSortFieldChange}
                                 className="sort-field-select"
-                                defaultValue={"score"}
+                                value={sortField}
                             >
                                 <option value="score">Score</option>
                                 <option value="id">Id</option>
@@ -69,7 +84,7 @@ export const Processing = (props: ProcessingProps) => {
                                 id="order"
                                 onChange={handleSortOrderChange}
                                 className="sort-order-select"
-                                defaultValue={"desc"}
+                                value={sortOrder}
                             >
                                 <option value="desc">Descending</option>
                                 <option value="asc">Ascending</option>

@@ -1,29 +1,33 @@
 import { ReactNode } from "react";
-import { useRoute, useLocation, Link } from "wouter";
+import { useRoute, Link, useLocation } from "wouter";
 
 export interface NavLinkProps {
     href: string;
     className?: string;
     children: ReactNode;
+    isDefaultPage: boolean;
 }
 
-interface Context {
-    isRouteActive: boolean;
+interface LinkContext {
     location: string;
+    isRouteActive: boolean;
     children: ReactNode;
     className?: string;
+    isDefaultPage: boolean;
 }
 
-const getClasses = (context: Context): string => {
-    const { isRouteActive, location, children, className } = context;
+const getClasses = (context: LinkContext): string => {
+    const { location, isRouteActive, className, isDefaultPage } = context;
 
     if (!className) return "";
 
-    const isDefaultPage: boolean =
-        children?.toString() === "Top" &&
-        (location === "/hn-client" || location === "/");
+    const isHighlighted =
+        isDefaultPage &&
+        (location === "/hn-client" ||
+            location === "/" ||
+            location.includes("/top/"));
 
-    if (isDefaultPage || isRouteActive) {
+    if (isHighlighted || isRouteActive) {
         return `${className} active`;
     } else {
         return className;
@@ -39,6 +43,7 @@ export const NavLink = (props: NavLinkProps) => {
         location: location,
         children: props.children,
         className: props.className,
+        isDefaultPage: props.isDefaultPage,
     };
 
     const classes = getClasses(context);
