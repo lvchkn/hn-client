@@ -2,7 +2,7 @@ import { IStory } from "../interfaces/story";
 import { IComment } from "../interfaces/comment";
 import { SortField, SortOrder } from "../components/processing/Processing";
 
-const NUMBER_OF_STORIES_TO_SHOW = 5;
+const NUMBER_OF_STORIES_TO_SHOW = 50;
 type Item = IComment | IStory;
 
 const isStory = (item: Item): item is IStory => {

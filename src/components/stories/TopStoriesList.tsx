@@ -11,8 +11,9 @@ import {
     getTopStoriesFromCustomApi,
 } from "../../utils/apiFetcher";
 import { sortStories } from "../../utils/sorter";
+import { paginateStories } from "../../utils/pager";
 
-const PAGE_SIZE = 2;
+const PAGE_SIZE = 5;
 
 export const TopStoriesList = () => {
     const [search, setSearch] = useState<string>("");
@@ -24,7 +25,9 @@ export const TopStoriesList = () => {
     const pageNumber = parseInt(params?.page ?? "") || 1;
 
     const query = useQuery<IStory[], Error>({
-        queryKey: [search, sortOrder, sortField, pageNumber],
+        queryKey: process.env.REACT_APP_USE_CUSTOM_API
+            ? [search, sortOrder, sortField, pageNumber]
+            : [pageNumber],
         queryFn: process.env.REACT_APP_USE_CUSTOM_API
             ? () =>
                   getTopStoriesFromCustomApi(
@@ -50,9 +53,12 @@ export const TopStoriesList = () => {
         setSortField(field);
     };
 
-    const processedData = process.env.REACT_APP_USE_CUSTOM_API
-        ? query.data
-        : sortStories(query.data, sortOrder, sortField, search);
+    let processedData = query.data;
+
+    if (!process.env.REACT_APP_USE_CUSTOM_API) {
+        processedData = sortStories(query.data, sortOrder, sortField, search);
+        processedData = paginateStories(processedData, pageNumber, PAGE_SIZE);
+    }
 
     return (
         <>
