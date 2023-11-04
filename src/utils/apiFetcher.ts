@@ -57,7 +57,7 @@ export const getTopStoriesFromCustomApi = async (
 ): Promise<IPagedObject> => {
     try {
         const response: Response = await fetch(
-            `/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`,
+            `${process.env.REACT_APP_BASE_URL}/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`,
             { credentials: "include" }
         );
         const result = response.status < 400 ? response.json() : [];
