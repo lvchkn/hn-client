@@ -22,7 +22,7 @@ module.exports = merge(common, {
     plugins: [
         new webpack.DefinePlugin({
             "process.env.REACT_APP_AUTH_ENABLED": JSON.stringify(false),
-            "process.env.REACT_APP_USE_CUSTOM_API": JSON.stringify(false),
+            "process.env.REACT_APP_USE_CUSTOM_API": JSON.stringify(true),
         }),
     ],
 });
