@@ -44,7 +44,7 @@ export const AuthProvider = (props: AuthProps) => {
     }, []);
 
     const login = () => {
-        window.location.href = `${BASE_URL}/login?returnUrl=${BASE_URL}`;
+        window.location.href = `${BASE_URL}/login?returnUrl=${process.env.REACT_APP_CLIENT_URL}`;
     };
 
     const logout = () => {

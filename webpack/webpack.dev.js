@@ -31,6 +31,9 @@ module.exports = merge(common, {
             "process.env.REACT_APP_BASE_URL": JSON.stringify(
                 "https://localhost:7245"
             ),
+            "process.env.REACT_APP_CLIENT_URL": JSON.stringify(
+                "http://localhost:8080"
+            ),
         }),
     ],
 });
