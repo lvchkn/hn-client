@@ -55,12 +55,19 @@ export const getTopStoriesFromCustomApi = async (
     pageNumber: number,
     pageSize: number
 ): Promise<IPagedObject> => {
-    const response: Response = await fetch(
-        `/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`,
-        { credentials: "include" }
-    );
-    const resp = response.status < 400 ? response.json() : [];
-    return resp;
+    try {
+        const response: Response = await fetch(
+            `/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`,
+            { credentials: "include" }
+        );
+        const result = response.status < 400 ? response.json() : [];
+        return result;
+    } catch (e: unknown) {
+        return {
+            totalPagesCount: 0,
+            stories: [],
+        };
+    }
 };
 
 export const getRecommendedStories = async (): Promise<IStory[]> => {
