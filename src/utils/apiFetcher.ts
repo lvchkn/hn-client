@@ -1,4 +1,4 @@
-import { IStory } from "../interfaces/story";
+import { IPagedObject, IStory } from "../interfaces/story";
 import { IComment } from "../interfaces/comment";
 import { SortField, SortOrder } from "../components/processing/Processing";
 
@@ -54,13 +54,20 @@ export const getTopStoriesFromCustomApi = async (
     sortField: SortField,
     pageNumber: number,
     pageSize: number
-): Promise<IStory[]> => {
-    const response: Response = await fetch(
-        `/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`,
-        { credentials: "include" }
-    );
-    const resp = response.status < 400 ? response.json() : [];
-    return resp;
+): Promise<IPagedObject> => {
+    try {
+        const response: Response = await fetch(
+            `${process.env.REACT_APP_BASE_URL}/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`,
+            { credentials: "include" }
+        );
+        const result = response.status < 400 ? response.json() : [];
+        return result;
+    } catch (e: unknown) {
+        return {
+            totalPagesCount: 0,
+            stories: [],
+        };
+    }
 };
 
 export const getRecommendedStories = async (): Promise<IStory[]> => {

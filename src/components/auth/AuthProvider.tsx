@@ -21,6 +21,8 @@ export interface AuthProps {
 const AuthContext = createContext({} as AuthContext);
 export const useAuth = () => useContext(AuthContext);
 
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+
 export const AuthProvider = (props: AuthProps) => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
     const [user, setUser] = useState<User>({
@@ -28,7 +30,7 @@ export const AuthProvider = (props: AuthProps) => {
     });
 
     const getUser = async () => {
-        const response = await fetch("https://localhost:7245/userinfo", {
+        const response = await fetch(`${BASE_URL}/userinfo`, {
             credentials: "include",
         });
         const json = await response.json();
@@ -42,12 +44,11 @@ export const AuthProvider = (props: AuthProps) => {
     }, []);
 
     const login = () => {
-        window.location.href =
-            "https://localhost:7245/login?returnUrl=http://localhost:8080/";
+        window.location.href = `${BASE_URL}/login?returnUrl=${BASE_URL}`;
     };
 
     const logout = () => {
-        window.location.href = "https://localhost:7245/logout";
+        window.location.href = `${BASE_URL}/logout`;
     };
 
     return (

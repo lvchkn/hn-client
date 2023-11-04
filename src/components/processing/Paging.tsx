@@ -3,63 +3,101 @@ import "./paging.css";
 
 interface PagingProps {
     pageNumber: number;
+    totalPagesCount: number;
 }
 
-const getCharactersForDisplay = (currentPage: number): (number | string)[] => {
-    const firstPage = 1;
-    if (currentPage < firstPage) return [];
+const getCharactersForDisplay = (
+    currentPageNumber: number,
+    totalPagesCount: number
+): (number | string)[] => {
+    const firstPageNumber = 1;
+    if (currentPageNumber < firstPageNumber) return [];
 
-    const numbers: (number | string)[] = [];
+    const leftArrows: string[] = [];
+    let numberOfPreviousPages = 0;
 
-    const numberOfAdjacentPages = 2;
+    if (currentPageNumber > 1) {
+        numberOfPreviousPages = 1;
+        leftArrows.unshift("<");
+    }
+
+    if (currentPageNumber > 2) {
+        numberOfPreviousPages = 2;
+        leftArrows.unshift("<<");
+    }
+
+    const rightArrows: string[] = [];
+    let numberOfSubsequentPages = 0;
+
+    if (totalPagesCount - currentPageNumber >= 1) {
+        numberOfSubsequentPages = 1;
+        rightArrows.push(">");
+    }
+
+    if (totalPagesCount - currentPageNumber >= 2) {
+        numberOfSubsequentPages = 2;
+        rightArrows.push(">>");
+    }
+
+    const numbers: number[] = [];
 
     for (
-        let i = currentPage - numberOfAdjacentPages;
-        i <= currentPage + numberOfAdjacentPages;
+        let i = currentPageNumber - numberOfPreviousPages;
+        i <= currentPageNumber + numberOfSubsequentPages;
         i++
     ) {
-        if (i >= firstPage) {
+        if (i >= firstPageNumber && i <= totalPagesCount) {
             numbers.push(i);
         }
     }
 
-    if (currentPage === firstPage) return numbers;
-    if (currentPage > firstPage) {
-        numbers.unshift("<");
-        return numbers;
-    }
+    const resultChars = [...leftArrows, ...numbers, ...rightArrows];
 
-    return numbers;
+    return resultChars;
 };
 
 export const Paging = (props: PagingProps) => {
+    const getPageNumberForLink = (n: number | string): number => {
+        if (typeof n === "number") return n;
+
+        switch (n) {
+            case "<":
+                return props.pageNumber - 1;
+            case "<<":
+                return 1;
+            case ">":
+                return props.pageNumber + 1;
+            case ">>":
+                return props.totalPagesCount;
+
+            default:
+                return 0;
+        }
+    };
+
     return (
         <span>
-            {getCharactersForDisplay(props.pageNumber).map((n) => {
+            {getCharactersForDisplay(
+                props.pageNumber,
+                props.totalPagesCount
+            ).map((n) => {
+                let className = "page-button";
+                if (n === props.pageNumber) className += " selected";
+
+                const linkToPageNumber = getPageNumberForLink(n);
+
                 return (
                     <NavLink
-                        href={`/top/${
-                            parseInt(n.toString()) || props.pageNumber - 1
-                        }`}
-                        className="tab"
+                        href={`/top/${linkToPageNumber}`}
                         key={n}
                         isDefaultPage={true}
                     >
-                        <button className="page-button" type="submit">
+                        <button className={className} type="submit">
                             {n}
                         </button>
                     </NavLink>
                 );
             })}
-            <NavLink
-                href={`/top/${props.pageNumber + 1}`}
-                className="tab"
-                isDefaultPage={true}
-            >
-                <button className="page-button" type="submit">
-                    {">"}
-                </button>
-            </NavLink>
         </span>
     );
 };
