@@ -26,6 +26,9 @@ module.exports = merge(common, {
             "process.env.REACT_APP_BASE_URL": JSON.stringify(
                 "https://myhnfeed.com"
             ),
+            "process.env.REACT_APP_CLIENT_URL": JSON.stringify(
+                "https://lvchkn.github.io/hn-client/"
+            ),
         }),
     ],
 });
