@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { Story } from "./Story";
-import { getRecommendedStories } from "../../utils/apiFetcher";
-import { IStory } from "../../interfaces/story";
-import { StoriesLoader } from "../loader/StoriesLoader";
+import { Story } from "../Story";
+import { StoriesLoader } from "../../loader/StoriesLoader";
+import { IStory } from "../../../interfaces/story";
+import { getFavouriteStories } from "../../../utils/apiFetcher";
 
-export const RecommendedStoriesList = () => {
+export const FavouriteStoriesList = () => {
     const query = useQuery<IStory[], Error>({
-        queryKey: ["getRecommendedStories"],
-        queryFn: getRecommendedStories,
+        queryKey: ["getFavouriteStories"],
+        queryFn: getFavouriteStories,
     });
 
     const sortedStories = query.data;

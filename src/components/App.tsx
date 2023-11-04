@@ -1,10 +1,10 @@
 import { Redirect, Route, Router } from "wouter";
 import { navigate, useLocationProperty } from "wouter/use-location";
 import { useAuth } from "./auth/AuthProvider";
-import { TopStoriesList } from "./stories/TopStoriesList";
 import { NavLink } from "./navbar/NavLink";
-import { RecommendedStoriesList } from "./stories/RecommendedStoriesList";
-import { FavouriteStoriesList } from "./stories/FavouritedStoriesList";
+import { TopStoriesList } from "./stories/lists/TopStoriesList";
+import { RecommendedStoriesList } from "./stories/lists/RecommendedStoriesList";
+import { FavouriteStoriesList } from "./stories/lists/FavouritedStoriesList";
 import "./app.css";
 
 export const App = () => {

@@ -1,4 +1,4 @@
-import { IStory } from "../interfaces/story";
+import { IPagedObject, IStory } from "../interfaces/story";
 import { IComment } from "../interfaces/comment";
 import { SortField, SortOrder } from "../components/processing/Processing";
 
@@ -54,7 +54,7 @@ export const getTopStoriesFromCustomApi = async (
     sortField: SortField,
     pageNumber: number,
     pageSize: number
-): Promise<IStory[]> => {
+): Promise<IPagedObject> => {
     const response: Response = await fetch(
         `/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`,
         { credentials: "include" }

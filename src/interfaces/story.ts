@@ -9,3 +9,8 @@ export interface IStory {
     type: string;
     url: string;
 }
+
+export interface IPagedObject {
+    stories: IStory[];
+    totalPagesCount: number;
+}
