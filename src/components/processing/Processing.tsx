@@ -57,6 +57,7 @@ export const Processing = (props: ProcessingProps) => {
                         <span className="search">
                             <label htmlFor="search">Search:</label>
                             <input
+                                id="search"
                                 type="text"
                                 onChange={handleSearch}
                                 value={searchText}
@@ -66,8 +67,8 @@ export const Processing = (props: ProcessingProps) => {
                         <span className="sort-field">
                             <label htmlFor="sortField">Sort by field:</label>
                             <select
+                                id="sortField"
                                 name="fields"
-                                id="fields"
                                 onChange={handleSortFieldChange}
                                 className="sort-field-select"
                                 value={sortField}
@@ -80,8 +81,8 @@ export const Processing = (props: ProcessingProps) => {
                         <span className="sort-order">
                             <label htmlFor="sortOrder">Sort by order:</label>
                             <select
+                                id="sortOrder"
                                 name="order"
-                                id="order"
                                 onChange={handleSortOrderChange}
                                 className="sort-order-select"
                                 value={sortOrder}
