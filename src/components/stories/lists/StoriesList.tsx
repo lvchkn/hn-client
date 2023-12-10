@@ -12,7 +12,7 @@ export const StoriesList = (props: StoriesListProps) => {
         <StoriesLoader />
     ) : (
         props.stories?.map((story) => {
-            const { id, score, title, url, kids } = story;
+            const { id, score, title, url, kids, tags } = story;
 
             return (
                 <div key={id}>
@@ -22,6 +22,7 @@ export const StoriesList = (props: StoriesListProps) => {
                         title={title}
                         url={url}
                         kids={kids}
+                        tags={tags}
                     ></Story>
                     <hr></hr>
                 </div>
