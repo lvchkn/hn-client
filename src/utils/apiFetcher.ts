@@ -82,6 +82,7 @@ export const getRecommendedStories = async (): Promise<IStory[]> => {
             title: "Recommended stories feature coming soon! (hopefully)",
             type: "story",
             url: "http://localhost:8080",
+            tags: [],
         },
     ];
 };
@@ -98,6 +99,7 @@ export const getFavouriteStories = async (): Promise<IStory[]> => {
             title: "Favourite stories feature coming soon! (hopefully)",
             type: "story",
             url: "http://localhost:8080",
+            tags: [],
         },
     ];
 };

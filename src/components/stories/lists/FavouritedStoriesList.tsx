@@ -15,7 +15,7 @@ export const FavouriteStoriesList = () => {
     return query.isFetched ? (
         <>
             {sortedStories?.map((story) => {
-                const { id, score, title, url, kids } = story;
+                const { id, score, title, url, kids, tags } = story;
 
                 return (
                     <div key={id}>
@@ -25,6 +25,7 @@ export const FavouriteStoriesList = () => {
                             title={title}
                             url={url}
                             kids={kids}
+                            tags={tags}
                         ></Story>
                         <hr></hr>
                     </div>

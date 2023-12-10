@@ -7,6 +7,13 @@
     color: dimgray;
 }
 
+.tag-btn {
+    border-radius: 2em;
+    background-color: #0066ff;
+    color: white;
+    margin-right: 8px;
+}
+
 ul {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 600;

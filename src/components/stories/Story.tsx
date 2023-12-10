@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CommentsList } from "../comments/CommentsList";
+import { Tag } from "../../interfaces/story";
 import "./storyStyles.css";
 
 export interface StoryProps {
@@ -8,6 +9,7 @@ export interface StoryProps {
     title: string;
     url: string;
     kids: number[];
+    tags: Tag[];
 }
 
 export const Story = (props: StoryProps) => {
@@ -18,6 +20,8 @@ export const Story = (props: StoryProps) => {
         : showComments
         ? "Hide comments"
         : "Show comments";
+
+    const hasTags = props.tags && props.tags.length > 0;
 
     const handleShowCommentsClick = () => {
         setShowComments(!showComments);
@@ -41,6 +45,22 @@ export const Story = (props: StoryProps) => {
                     </a>
                 </li>
                 <li>{props.score} points</li>
+
+                {hasTags ? (
+                    <li>
+                        {props.tags.map((tag) => {
+                            return (
+                                <span key={tag.id}>
+                                    <button className="tag-btn">
+                                        {tag.name}
+                                    </button>
+                                </span>
+                            );
+                        })}
+                    </li>
+                ) : (
+                    <></>
+                )}
             </ul>
 
             <button
