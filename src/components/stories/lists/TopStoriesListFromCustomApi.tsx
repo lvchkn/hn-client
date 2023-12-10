@@ -8,7 +8,7 @@ import { IPagedObject } from "../../../interfaces/story";
 import { getTopStoriesFromCustomApi } from "../../../utils/apiFetcher";
 
 const PAGE_SIZE = 5;
-const STALE_TIME = 3_000;
+const STALE_TIME = process.env.NODE_ENV === "development" ? 10_000 : 300_000;
 
 export const TopStoriesListFromCustomApi = () => {
     const [search, setSearch] = useState<string>("");
