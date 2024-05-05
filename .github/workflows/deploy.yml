@@ -22,7 +22,7 @@ jobs:
                   echo DOMAIN=${{ secrets.DOMAIN }} >> .env
 
             - name: Prepare config file
-              run: chmod +x ./prepareConfig.sh && ./prepareConfig.sh domain ${{ secrets.DOMAIN }} nginx.production.conf
+              run: chmod +x ./prepareConfig.sh && ./prepareConfig.sh domain ${{ secrets.DOMAIN }} nginx.conf
 
             - name: Copy file via ssh key
               uses: appleboy/scp-action@v0.1.4
@@ -32,7 +32,7 @@ jobs:
                   key: ${{ secrets.SSH_KEY }}
                   passphrase: ${{ secrets.SSH_PASSPHRASE }}
                   port: ${{ secrets.SSH_PORT }}
-                  source: "nginx.production.conf,./docker-compose.production.yml,./.env"
+                  source: "nginx.conf,./docker-compose.yml,./.env"
                   target: "~/hnfeed-proj/hnclient"
 
             - name: Start compose stack
@@ -45,6 +45,6 @@ jobs:
                   port: ${{ secrets.SSH_PORT }}
                   script: |
                       cd ~/hnfeed-proj/hnclient
-                      docker compose -f docker-compose.production.yml down
-                      docker compose -f docker-compose.production.yml pull
-                      docker compose -f docker-compose.production.yml up -d
+                      docker compose -f docker-compose.yml down
+                      docker compose -f docker-compose.yml pull
+                      docker compose -f docker-compose.yml up -d
