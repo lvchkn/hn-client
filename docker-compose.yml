@@ -4,7 +4,7 @@ services:
         image: ghcr.io/lvchkn/hn-client:latest
         networks:
             - hnfeed
-    nginx:
+    nginx-fe:
         image: nginx:alpine
         ports:
             - "443:443"
