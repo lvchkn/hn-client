@@ -23,8 +23,9 @@ module.exports = merge(common, {
         new webpack.DefinePlugin({
             "process.env.REACT_APP_AUTH_ENABLED": JSON.stringify(true),
             "process.env.REACT_APP_USE_CUSTOM_API": JSON.stringify(true),
-            "process.env.REACT_APP_BASE_URL":
-                JSON.stringify("https://nginx:444"),
+            "process.env.REACT_APP_BASE_URL": JSON.stringify(
+                "https://api.myhnfeed.com:444"
+            ),
             "process.env.REACT_APP_CLIENT_URL": JSON.stringify(
                 "https://www.myhnfeed.com"
             ),
