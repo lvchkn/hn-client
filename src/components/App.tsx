@@ -1,5 +1,5 @@
 import { Redirect, Route, Router } from "wouter";
-import { navigate, useLocationProperty } from "wouter/use-location";
+import { useHashLocation } from "wouter/use-hash-location";
 import { useAuth } from "./auth/AuthProvider";
 import { NavLink } from "./navbar/NavLink";
 import { TopStoriesList } from "./stories/lists/TopStoriesList";
@@ -8,15 +8,6 @@ import { FavouriteStoriesList } from "./stories/lists/FavouritedStoriesList";
 import "./app.css";
 
 export const App = () => {
-    const hashLocation = () => window.location.hash.replace(/^#/, "") || "/";
-
-    const hashNavigate = (to: string) => navigate("#" + to);
-
-    const useHashLocation = (): [string, (nav: string) => void] => {
-        const location = useLocationProperty(hashLocation);
-        return [location, hashNavigate];
-    };
-
     const { login } = useAuth();
 
     return (

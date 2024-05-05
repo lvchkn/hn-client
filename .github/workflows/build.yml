@@ -1,0 +1,32 @@
+name: build
+on: push
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout the repo
+              uses: actions/checkout@v4
+
+            - name: Set up Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "21"
+
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Run audit
+              run: npm audit
+              continue-on-error: true
+
+            - name: Show outdated packages
+              run: npm outdated
+              continue-on-error: true
+
+            - name: Run lint
+              run: npm run lint
+
+            - name: Build static files
+              run: npm run build
