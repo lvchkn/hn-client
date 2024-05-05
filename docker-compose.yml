@@ -2,6 +2,8 @@ version: "3"
 services:
     react-app:
         image: ghcr.io/lvchkn/hn-client:latest
+        networks:
+            - hnfeed
     nginx:
         image: nginx:alpine
         ports:
@@ -13,3 +15,7 @@ services:
             - /etc/letsencrypt/live/${DOMAIN}/privkey.pem:/etc/nginx/ssl/${DOMAIN}/privkey.pem
             - /etc/letsencrypt/live/www.${DOMAIN}/fullchain.pem:/etc/nginx/ssl/www.${DOMAIN}/fullchain.pem
             - /etc/letsencrypt/live/www.${DOMAIN}/privkey.pem:/etc/nginx/ssl/www.${DOMAIN}/privkey.pem
+networks:
+    hnfeed:
+        name: hnfeed_default
+        external: true
