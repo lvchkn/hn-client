@@ -15,6 +15,8 @@ services:
             - /etc/letsencrypt/live/${DOMAIN}/privkey.pem:/etc/nginx/ssl/${DOMAIN}/privkey.pem
             - /etc/letsencrypt/live/www.${DOMAIN}/fullchain.pem:/etc/nginx/ssl/www.${DOMAIN}/fullchain.pem
             - /etc/letsencrypt/live/www.${DOMAIN}/privkey.pem:/etc/nginx/ssl/www.${DOMAIN}/privkey.pem
+        networks:
+            - hnfeed
 networks:
     hnfeed:
         name: hnfeed_default
