@@ -62,7 +62,7 @@ export const getTopStoriesFromCustomApi = async (
         );
         const result = response.status < 400 ? response.json() : [];
         return result;
-    } catch (e: unknown) {
+    } catch {
         return {
             totalPagesCount: 0,
             stories: [],
