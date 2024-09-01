@@ -8,7 +8,6 @@ import { IPagedObject } from "../../../interfaces/story";
 import { getTopStoriesFromCustomApi } from "../../../utils/apiFetcher";
 
 const PAGE_SIZE = 5;
-const STALE_TIME = process.env.NODE_ENV === "development" ? 10_000 : 300_000;
 
 export const TopStoriesListFromCustomApi = () => {
     const [search, setSearch] = useState<string>("");
@@ -29,7 +28,7 @@ export const TopStoriesListFromCustomApi = () => {
                 pageNumber,
                 PAGE_SIZE
             ),
-        staleTime: STALE_TIME,
+        staleTime: 30_000 * 60, // 30 min
     });
 
     const totalPagesCount = query.data?.totalPagesCount || 0;

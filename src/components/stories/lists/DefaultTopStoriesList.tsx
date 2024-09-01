@@ -11,7 +11,6 @@ import { sortStories } from "../../../utils/sorter";
 import { paginateStories } from "../../../utils/pager";
 
 const PAGE_SIZE = 5;
-const STALE_TIME = 3_000;
 
 export const DefaultTopStoriesList = () => {
     const [search, setSearch] = useState<string>("");
@@ -25,7 +24,7 @@ export const DefaultTopStoriesList = () => {
     const query = useQuery<IStory[], Error>({
         queryKey: [pageNumber],
         queryFn: getTopStories,
-        staleTime: STALE_TIME,
+        staleTime: 30_000 * 60, // 30 min
     });
 
     const sortedStories = sortStories(query.data, sortOrder, sortField, search);

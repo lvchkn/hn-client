@@ -4,7 +4,13 @@ import { createRoot } from "react-dom/client";
 import { App } from "./components/App";
 import { AuthProvider } from "./components/auth/AuthProvider";
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            refetchOnWindowFocus: false,
+        },
+    },
+});
 
 const element = document.getElementById("root");
 const root = element && createRoot(element);

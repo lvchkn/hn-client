@@ -17,7 +17,7 @@ export const CommentsList = (props: CommentsListProps) => {
         queryKey: [props.storyId],
         queryFn: () => traverseComments(props.kids),
         enabled: props.showComments,
-        staleTime: 300_000,
+        staleTime: 30_000 * 60,
     });
 
     const sortedComments = query.data && sortComments(query.data);

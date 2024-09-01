@@ -5,20 +5,25 @@ services:
         networks:
             - hnfeed
     nginx-fe:
-        image: nginx:alpine
+        image: nginx:alpine3.20-slim
         ports:
             - "443:443"
             - "80:80"
         volumes:
             - ./nginx.conf:/etc/nginx/nginx.conf
-            - /etc/letsencrypt/live/${DOMAIN}/fullchain.pem:/etc/nginx/ssl/${DOMAIN}/fullchain.pem
-            - /etc/letsencrypt/live/${DOMAIN}/privkey.pem:/etc/nginx/ssl/${DOMAIN}/privkey.pem
-            - /etc/letsencrypt/live/www.${DOMAIN}/fullchain.pem:/etc/nginx/ssl/www.${DOMAIN}/fullchain.pem
-            - /etc/letsencrypt/live/www.${DOMAIN}/privkey.pem:/etc/nginx/ssl/www.${DOMAIN}/privkey.pem
+            - ./certbot/conf:/etc/nginx/ssl:ro
+            - ./certbot/www:/var/www/certbot:ro
             - /etc/nginx/ssl/nginx.crt:/etc/nginx/ssl/nginx.crt
             - /etc/nginx/ssl/nginx.key:/etc/nginx/ssl/nginx.key
         networks:
             - hnfeed
+    certbot:
+        image: certbot/certbot:v2.11.0
+        volumes:
+            - ./certbot/conf:/etc/letsencrypt:rw
+            - ./certbot/www:/var/www/certbot:rw
+        command: certonly --webroot -w /var/www/certbot --dry-run -d ${DOMAIN} -d www.${DOMAIN} --agree-tos --register-unsafely-without-email
+
 networks:
     hnfeed:
         name: hnfeed_default
