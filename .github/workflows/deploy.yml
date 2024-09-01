@@ -20,27 +20,19 @@ jobs:
             - name: Check out the repo
               uses: actions/checkout@v4
 
-            - name: Create .env file
-              run: |
-                  touch .env
-                  echo DOMAIN=${{ secrets.DOMAIN }} >> .env
-
-            - name: Prepare config file
-              run: chmod +x ./prepareConfig.sh && ./prepareConfig.sh domain ${{ secrets.DOMAIN }} nginx.conf
-
             - name: Copy file via ssh key
-              uses: appleboy/scp-action@v0.1.4
+              uses: appleboy/scp-action@v0.1.7
               with:
                   host: ${{ secrets.HOST }}
                   username: ${{ secrets.SSH_USERNAME }}
                   key: ${{ secrets.SSH_KEY }}
                   passphrase: ${{ secrets.SSH_PASSPHRASE }}
                   port: ${{ secrets.SSH_PORT }}
-                  source: "nginx.conf,./docker-compose.yml,./.env"
+                  source: "./docker-compose.yml,./.env"
                   target: "~/hnfeed-proj/hnclient"
 
             - name: Start compose stack
-              uses: appleboy/ssh-action@v1.0.0
+              uses: appleboy/ssh-action@v1.0.3
               with:
                   host: ${{ secrets.HOST }}
                   username: ${{ secrets.SSH_USERNAME }}
