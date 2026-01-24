@@ -32,6 +32,7 @@ export default [
                 HTMLInputElement: "readonly",
                 HTMLSelectElement: "readonly",
                 process: "readonly",
+                console: "readonly",
             },
         },
         plugins: {

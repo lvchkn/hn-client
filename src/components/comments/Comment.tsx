@@ -29,7 +29,7 @@ export const Comment = (props: CommentProps) => {
         replyObjects: props.replies ?? [],
     } as IComment);
 
-    const replyGrammar = totalCommentsCount % 10 === 1 ? "reply" : "replies";
+    const replyGrammar = totalCommentsCount === 1 ? "reply" : "replies";
     const collapsedText = isCollapsed
         ? `Show comment and ${totalCommentsCount} ${replyGrammar}`
         : `${props.author}`;

@@ -45,12 +45,16 @@ export const AuthProvider = (props: AuthProps) => {
         }
     }, []);
 
+    const returnUrl = encodeURIComponent(
+        process.env.REACT_APP_CLIENT_URL ?? window.location.origin
+    );
+
     const login = () => {
-        window.location.href = `${BASE_URL}/login?returnUrl=${process.env.REACT_APP_CLIENT_URL}`;
+        window.location.href = `${BASE_URL}/login?returnUrl=${returnUrl}`;
     };
 
     const logout = () => {
-        window.location.href = `${BASE_URL}/logout?returnUrl=${process.env.REACT_APP_CLIENT_URL}`;
+        window.location.href = `${BASE_URL}/logout?returnUrl=${returnUrl}`;
     };
 
     return (

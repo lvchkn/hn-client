@@ -5,12 +5,21 @@ const COOKIE_CONSENT_KEY = "cookie-consent";
 
 export const CookieBanner = () => {
     const [isVisible, setIsVisible] = useState<boolean>(() => {
-        const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
-        return !consent || consent !== "true";
+        try {
+            const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
+            return !consent || consent !== "true";
+        } catch {
+            console.warn("Failed to load cookie consent from localStorage");
+            return true;
+        }
     });
 
     const handleAccept = () => {
-        localStorage.setItem(COOKIE_CONSENT_KEY, "true");
+        try {
+            localStorage.setItem(COOKIE_CONSENT_KEY, "true");
+        } catch {
+            console.warn("Failed to save cookie consent to localStorage");
+        }
         setIsVisible(false);
     };
 

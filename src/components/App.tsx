@@ -35,11 +35,23 @@ const DarkTheme: Theme = "dark-theme";
 
 export const App = () => {
     const { login, logout, user, isAuthenticated } = useAuth();
+
     const [search, setSearch] = useState<string>("");
     const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
     const [sortField, setSortField] = useState<SortField>("score");
+
     const [theme, setTheme] = useState<Theme>(() => {
-        return (localStorage.getItem("theme") as Theme) || LightTheme;
+        try {
+            const savedTheme = localStorage.getItem("theme");
+
+            if (savedTheme === DarkTheme || savedTheme === LightTheme) {
+                return savedTheme;
+            }
+        } catch {
+            console.warn("Failed to load theme from localStorage");
+        }
+
+        return LightTheme;
     });
 
     useEffect(() => {
@@ -48,7 +60,12 @@ export const App = () => {
         } else {
             document.body.classList.remove(DarkTheme);
         }
-        localStorage.setItem("theme", theme);
+
+        try {
+            localStorage.setItem("theme", theme);
+        } catch {
+            console.warn("Failed to save theme to localStorage");
+        }
     }, [theme]);
 
     const toggleTheme = () => {

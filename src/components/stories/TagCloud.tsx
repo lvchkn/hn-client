@@ -4,7 +4,7 @@ import { IPagedObject, Tag } from "../../interfaces/story";
 import { StoriesLoader } from "../loader/StoriesLoader";
 import "./tagCloudStyles.css";
 
-const MAX_STORIES = 20_000;
+const MAX_STORIES = 200;
 
 export const TagCloud = () => {
     const { data, isLoading } = useQuery<IPagedObject, Error>({

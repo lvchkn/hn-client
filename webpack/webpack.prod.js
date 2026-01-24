@@ -35,13 +35,6 @@ module.exports = merge(common, {
             algorithm: "gzip",
             test: /\.(js|css|html)$/,
         }),
-        new CompressionPlugin({
-            algorithm: "brotliCompress",
-            test: /\.(js|css|html|svg)$/,
-            compressionOptions: {
-                level: 11,
-            },
-        }),
     ],
     optimization: {
         splitChunks: {
