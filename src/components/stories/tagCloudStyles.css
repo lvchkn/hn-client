@@ -1,0 +1,64 @@
+.tag-cloud-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 40px;
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--secondary-color);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--border-color);
+}
+
+.tag-cloud-item {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    color: var(--dim-text);
+    text-decoration: none;
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 8px;
+}
+
+.tag-cloud-item:hover {
+    transform: scale(1.1);
+    background: var(--tab-hover);
+    color: var(--tab-text);
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.size-xs {
+    font-size: 0.8rem;
+    opacity: 0.6;
+}
+
+.size-sm {
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.size-md {
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+.size-lg {
+    font-size: 2rem;
+    opacity: 0.9;
+}
+
+.size-xl {
+    font-size: 3rem;
+    opacity: 1;
+    font-weight: bold;
+}
+
+.tag-cloud-loading {
+    text-align: center;
+    padding: 50px;
+    font-size: 1.2rem;
+    color: var(--dim-text);
+}

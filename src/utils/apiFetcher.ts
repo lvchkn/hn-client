@@ -3,15 +3,20 @@ import { IComment } from "../interfaces/comment";
 import { SortField, SortOrder } from "../components/processing/Processing";
 
 const NUMBER_OF_STORIES_TO_SHOW = 50;
-type Item = IComment | IStory;
+type Item = IComment | IStory | null;
 
-const isStory = (item: Item): item is IStory => {
-    return (item as IStory) !== undefined;
-};
+const isObject = (param: unknown): param is Record<string, unknown> =>
+    param !== null && typeof param === "object";
 
-const isComment = (item: Item): item is IComment => {
-    return (item as IComment) !== undefined;
-};
+const isStory = (item: Item): item is IStory =>
+    isObject(item) &&
+    (item as IStory).type === "story" &&
+    typeof (item as IStory).id === "number";
+
+const isComment = (item: Item): item is IComment =>
+    isObject(item) &&
+    (item as IComment).type === "comment" &&
+    typeof (item as IComment).id === "number";
 
 const getItemById = async (id: number): Promise<Item> => {
     const response: Response = await fetch(
@@ -55,18 +60,29 @@ export const getTopStoriesFromCustomApi = async (
     pageNumber: number,
     pageSize: number
 ): Promise<IPagedObject> => {
+    const fallback = {
+        totalPagesCount: 0,
+        stories: [],
+    };
+
     try {
+        const params = new URLSearchParams({
+            orderBy: `${sortField} ${sortOrder}`,
+            pageNumber: pageNumber.toString(),
+            pageSize: pageSize.toString(),
+            search: search,
+        });
+
         const response: Response = await fetch(
-            `${process.env.REACT_APP_BASE_URL}/api/stories?orderBy=${sortField} ${sortOrder}&pageNumber=${pageNumber}&pageSize=${pageSize}&search=${search}`,
+            `${process.env.REACT_APP_BASE_URL}/api/stories?${params}`,
             { credentials: "include" }
         );
-        const result = response.status < 400 ? response.json() : [];
+
+        const result = response.status < 400 ? await response.json() : fallback;
+
         return result;
     } catch {
-        return {
-            totalPagesCount: 0,
-            stories: [],
-        };
+        return fallback;
     }
 };
 
@@ -104,16 +120,18 @@ export const getFavouriteStories = async (): Promise<IStory[]> => {
     ];
 };
 
-export const traverseComments = async (kids: number[]): Promise<IComment[]> => {
-    if (!kids || kids.length === 0) {
+export const traverseComments = async (
+    replies: number[]
+): Promise<IComment[]> => {
+    if (!replies || replies.length === 0) {
         return [];
     }
 
     return await Promise.all(
-        kids.map(async (kidId: number) => {
-            const item: Item = await getItemById(kidId);
+        replies.map(async (replyId: number) => {
+            const item: Item = await getItemById(replyId);
             if (item && isComment(item) && !item.deleted && item.kids) {
-                item.kidComments = await traverseComments(item.kids);
+                item.replyObjects = await traverseComments(item.kids);
                 return item;
             }
 
@@ -124,7 +142,7 @@ export const traverseComments = async (kids: number[]): Promise<IComment[]> => {
                     type: "comment",
                     time: item.time,
                     kids: [],
-                    kidComments: [],
+                    replyObjects: [],
                     parent: item.parent,
                     deleted: true,
                     text: "deleted",

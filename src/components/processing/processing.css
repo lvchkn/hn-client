@@ -3,7 +3,7 @@
     flex-direction: column;
     max-width: 400px;
     margin-left: 20px;
-    color: dimgray;
+    color: var(--dim-text);
     font-size: 16px;
     font-weight: 600;
     font-family: Arial, Helvetica, sans-serif;
@@ -16,7 +16,7 @@
     max-width: 400px;
     margin-top: 20px;
     margin-left: 20px;
-    color: dimgray;
+    color: var(--dim-text);
     font-size: 16px;
     font-weight: 600;
     font-family: Arial, Helvetica, sans-serif;
@@ -29,10 +29,13 @@
     flex-direction: column;
     max-width: 400px;
     margin-top: 10px;
-    color: dimgray;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
     font-size: 16px;
     font-weight: 300;
     font-family: Arial, Helvetica, sans-serif;
+    padding: 5px;
 }
 
 .options-panel {
@@ -43,9 +46,9 @@
 }
 
 .options-panel-button {
-    background-color: whitesmoke;
-    color: dimgray;
-    border: 1px solid dimgray;
+    background-color: var(--bg-color);
+    color: var(--dim-text);
+    border: 1px solid var(--border-color);
     margin-top: 10px;
     padding: 10px 20px;
     cursor: pointer;
@@ -56,12 +59,13 @@
 }
 
 .options-panel-button:hover {
-    background-color: gainsboro;
+    background-color: var(--tab-active-hover);
 }
 
 .options-panel-content {
-    background-color: whitesmoke;
+    background-color: var(--bg-color);
     padding: 20px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .line {

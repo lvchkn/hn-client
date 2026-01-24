@@ -12,7 +12,9 @@ export const RecommendedStoriesList = () => {
 
     const sortedStories = query.data;
 
-    return query.isFetched ? (
+    return query.isLoading ? (
+        <StoriesLoader />
+    ) : (
         <>
             {sortedStories?.map((story) => {
                 const { id, score, title, url, kids, tags } = story;
@@ -32,7 +34,5 @@ export const RecommendedStoriesList = () => {
                 );
             })}
         </>
-    ) : (
-        <StoriesLoader />
     );
 };

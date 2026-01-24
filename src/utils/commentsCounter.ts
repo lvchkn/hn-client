@@ -1,15 +1,22 @@
 import { IComment } from "../interfaces/comment";
 
-export const getKidCommentsCount = (comment: IComment): number => {
-    let counter = comment.kidComments.length;
+export const getRepliesCount = (comment: IComment): number => {
+    let counter = 0;
     const stack = [comment];
 
     while (stack.length > 0) {
         const currentComment = stack.pop();
-        counter += currentComment?.kids?.length ?? 0;
+        if (!currentComment) continue;
 
-        currentComment?.kidComments?.forEach((kid) => {
-            stack.push(kid);
+        const kidsCount = currentComment.kids?.length ?? 0;
+        const repliesCount = currentComment.replyObjects?.length ?? 0;
+
+        const currentLevelCount = kidsCount > 0 ? kidsCount : repliesCount;
+
+        counter += currentLevelCount;
+
+        currentComment.replyObjects?.forEach((reply) => {
+            stack.push(reply);
         });
     }
 

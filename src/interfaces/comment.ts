@@ -7,5 +7,5 @@ export interface IComment {
     time: number;
     type: string;
     deleted: boolean;
-    kidComments: IComment[];
+    replyObjects: IComment[];
 }

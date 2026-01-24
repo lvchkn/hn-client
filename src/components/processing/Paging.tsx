@@ -75,29 +75,50 @@ export const Paging = (props: PagingProps) => {
         }
     };
 
+    const getAriaLabel = (n: number | string): string => {
+        if (typeof n === "number") return `Page ${n}`;
+
+        switch (n) {
+            case "<":
+                return "Previous page";
+            case "<<":
+                return "First page";
+            case ">":
+                return "Next page";
+            case ">>":
+                return "Last page";
+            default:
+                return "";
+        }
+    };
+
     return (
-        <span>
+        <nav aria-label="Pagination">
             {getCharactersForDisplay(
                 props.pageNumber,
                 props.totalPagesCount
             ).map((n) => {
-                let className = "page-button";
+                let className = "page-link";
                 if (n === props.pageNumber) className += " selected";
 
                 const linkToPageNumber = getPageNumberForLink(n);
+                const ariaLabel = getAriaLabel(n);
 
                 return (
                     <NavLink
                         href={`/top/${linkToPageNumber}`}
                         key={n}
                         isDefaultPage={true}
+                        className={className}
+                        aria-current={
+                            n === props.pageNumber ? "page" : undefined
+                        }
                     >
-                        <button className={className} type="submit">
-                            {n}
-                        </button>
+                        <span aria-hidden="true">{n}</span>
+                        <span className="visually-hidden">{ariaLabel}</span>
                     </NavLink>
                 );
             })}
-        </span>
+        </nav>
     );
 };
