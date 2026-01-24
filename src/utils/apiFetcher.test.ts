@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { getTopStoriesFromCustomApi, traverseComments } from "./apiFetcher";
 
 describe("apiFetcher", () => {
@@ -92,5 +92,9 @@ describe("apiFetcher", () => {
             expect(comments[0].by).toBe("deleted");
             expect(comments[0].deleted).toBe(true);
         });
+    });
+
+    afterEach(() => {
+        vi.unstubAllGlobals();
     });
 });

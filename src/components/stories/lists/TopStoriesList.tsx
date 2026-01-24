@@ -23,7 +23,7 @@ export const TopStoriesList = (props: ITopStoriesListProps) => {
     const pageNumber = parseInt(params?.page ?? "") || 1;
 
     const query = useQuery<IPagedObject, Error>({
-        queryKey: [search, sortOrder, sortField, pageNumber],
+        queryKey: [search, sortOrder, sortField, pageNumber, PAGE_SIZE],
         queryFn: () =>
             getTopStoriesFromCustomApi(
                 search,

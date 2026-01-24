@@ -131,7 +131,6 @@ export const App = () => {
                 <Suspense fallback={<StoriesLoader />}>
                     <Route path="/hn-client">
                         <Redirect to="/" />
-                        {topStoriesJsx}
                     </Route>
 
                     <Route path="/">{topStoriesJsx}</Route>

@@ -8,7 +8,7 @@ interface StoriesListProps {
 export const StoriesList = (props: StoriesListProps) => {
     const { stories } = props;
 
-    return stories?.map((story) => {
+    return stories.map((story) => {
         const { id, score, title, url, kids, tags } = story;
 
         return (

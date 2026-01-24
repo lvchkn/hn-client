@@ -31,12 +31,12 @@ export const TagCloud = () => {
         });
     });
 
-    const sortedTags = Object.entries(tagCountMap).map(([name, data]) => ({
+    const tagList = Object.entries(tagCountMap).map(([name, data]) => ({
         name,
         ...data,
     }));
 
-    if (sortedTags.length === 0) {
+    if (tagList.length === 0) {
         return (
             <div className="tag-cloud-loading">
                 No tags found in recent stories.
@@ -44,7 +44,7 @@ export const TagCloud = () => {
         );
     }
 
-    const maxCount = Math.max(...sortedTags.map((t) => t.count));
+    const maxCount = Math.max(...tagList.map((t) => t.count));
 
     const getClassName = (count: number) => {
         const ratio = count / maxCount;
@@ -57,9 +57,9 @@ export const TagCloud = () => {
 
     return (
         <div className="tag-cloud-container">
-            {sortedTags.map((tag) => (
+            {tagList.map((tag) => (
                 <span
-                    key={tag.id}
+                    key={tag.name}
                     className={getClassName(tag.count)}
                     title={`${tag.count} occurrences`}
                 >

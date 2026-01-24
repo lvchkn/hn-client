@@ -110,6 +110,9 @@ export const Paging = (props: PagingProps) => {
                         key={n}
                         isDefaultPage={true}
                         className={className}
+                        aria-current={
+                            n === props.pageNumber ? "page" : undefined
+                        }
                     >
                         <span aria-hidden="true">{n}</span>
                         <span className="visually-hidden">{ariaLabel}</span>

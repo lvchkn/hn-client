@@ -58,9 +58,7 @@ export const Story = (props: StoryProps) => {
                             );
                         })}
                     </li>
-                ) : (
-                    <></>
-                )}
+                ) : null}
             </ul>
 
             <button

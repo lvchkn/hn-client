@@ -62,3 +62,9 @@
         width: 100%;
     }
 }
+
+@media (prefers-reduced-motion: reduce) {
+    .cookie-banner {
+        animation: none;
+    }
+}

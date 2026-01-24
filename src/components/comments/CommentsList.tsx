@@ -13,18 +13,20 @@ export interface CommentsListProps {
 }
 
 export const CommentsList = (props: CommentsListProps) => {
+    const { storyId, replies, showComments, handleLoadingStatusChange } = props;
+
     const query = useQuery<IComment[], Error>({
-        queryKey: [props.storyId],
-        queryFn: () => traverseComments(props.replies),
-        enabled: props.showComments,
+        queryKey: [storyId, replies],
+        queryFn: () => traverseComments(replies),
+        enabled: showComments,
         staleTime: 30_000 * 60,
     });
 
     const sortedComments = query.data && sortComments(query.data);
 
     useEffect(() => {
-        props.handleLoadingStatusChange(query.isLoading);
-    });
+        handleLoadingStatusChange(query.isLoading);
+    }, [query.isLoading, handleLoadingStatusChange]);
 
     return (
         <>

@@ -68,7 +68,7 @@
 }
 
 .collapse-line:hover::before {
-    background-color: #ff6600;
+    background-color: var(--primary-color);
     /* HN Orange */
     width: 3px;
 }
