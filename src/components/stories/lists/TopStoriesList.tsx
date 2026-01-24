@@ -38,7 +38,7 @@ export const TopStoriesList = (props: ITopStoriesListProps) => {
     const pagesCount = query.data?.totalPagesCount || 0;
     const stories = query.data?.stories || [];
 
-    return query.isFetching ? (
+    return query.isLoading ? (
         <StoriesLoader />
     ) : (
         <>

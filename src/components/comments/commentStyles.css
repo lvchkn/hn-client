@@ -28,6 +28,8 @@
 }
 
 .comment-id {
+    display: flex;
+    padding-left: 8px;
     align-items: flex-end;
 }
 
