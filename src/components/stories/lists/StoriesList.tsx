@@ -1,32 +1,28 @@
 import { Story } from "../Story";
-import { StoriesLoader } from "../../loader/StoriesLoader";
 import { IStory } from "../../../interfaces/story";
 
 interface StoriesListProps {
-    isLoading: boolean;
-    stories: IStory[] | undefined;
+    stories: IStory[];
 }
 
 export const StoriesList = (props: StoriesListProps) => {
-    return props.isLoading ? (
-        <StoriesLoader />
-    ) : (
-        props.stories?.map((story) => {
-            const { id, score, title, url, kids, tags } = story;
+    const { stories } = props;
 
-            return (
-                <div key={id}>
-                    <Story
-                        id={id}
-                        score={score}
-                        title={title}
-                        url={url}
-                        kids={kids}
-                        tags={tags}
-                    ></Story>
-                    <hr></hr>
-                </div>
-            );
-        })
-    );
+    return stories?.map((story) => {
+        const { id, score, title, url, kids, tags } = story;
+
+        return (
+            <div key={id}>
+                <Story
+                    id={id}
+                    score={score}
+                    title={title}
+                    url={url}
+                    kids={kids}
+                    tags={tags}
+                ></Story>
+                <hr></hr>
+            </div>
+        );
+    });
 };

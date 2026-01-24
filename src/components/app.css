@@ -1,3 +1,46 @@
+:root {
+    --bg-color: whitesmoke;
+    --text-color: #333;
+    --primary-color: rgb(25 22 126);
+    --secondary-color: #f0f0f0;
+    --header-text: rgb(25 22 126);
+    --tab-text: whitesmoke;
+    --tab-border: rgb(25 22 126);
+    --tab-hover: rgb(25, 22, 226);
+    --tab-active-bg: whitesmoke;
+    --tab-active-text: dimgray;
+    --tab-active-hover: gainsboro;
+    --dim-text: dimgray;
+    --border-color: #ccc;
+    --tag-bg: #0066ff;
+    --tag-text: whitesmoke;
+}
+
+.dark-theme {
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --primary-color: #3f51b5;
+    --secondary-color: #2d2d2d;
+    --header-text: #b3b9ff;
+    --tab-text: #e0e0e0;
+    --tab-border: #3f51b5;
+    --tab-hover: #5c6bc0;
+    --tab-active-bg: #333;
+    --tab-active-text: #fff;
+    --tab-active-hover: #444;
+    --dim-text: #888;
+    --border-color: #444;
+    --tag-bg: #5c6bc0;
+    --tag-text: #fff;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 0;
+}
+
 h1 {
     font-size: 2em;
     text-align: center;
@@ -7,14 +50,11 @@ h1 {
 
 a {
     text-decoration: none;
+    color: inherit;
 }
 
 h2 {
     font-size: 1em;
-}
-
-body {
-    background-color: whitesmoke;
 }
 
 .header {
@@ -24,42 +64,68 @@ body {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 900;
     font-size: 20px;
-    color: rgb(25 22 126);
+    color: var(--header-text);
+    padding: 0 20px;
 }
 
-.login-button {
+.login-button,
+.theme-toggle {
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 900;
-    font-size: 20px;
-    color: whitesmoke;
-    background: rgb(25 22 126);
+    font-size: 16px;
+    color: var(--tab-text);
+    background: var(--primary-color);
     cursor: pointer;
+    border: none;
+    padding: 8px 16px;
+    margin-left: 10px;
+    border-radius: 4px;
+    min-width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .tabs {
     display: flex;
-    background-color: rgb(25 22 126);
+    background-color: var(--primary-color);
 }
 
 .tab {
-    padding: 0px 30px;
-    color: whitesmoke;
+    padding: 10px 30px;
+    color: var(--tab-text);
     font-family: Arial, Helvetica, sans-serif;
     font-weight: 600;
     font-size: 20px;
     text-decoration: none;
-    border: 1px solid rgb(25 22 126);
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .active {
-    color: dimgray;
-    background-color: whitesmoke;
+    color: var(--tab-active-text);
+    background-color: var(--tab-active-bg);
 }
 
 .tab:hover {
-    background-color: rgb(25, 22, 226);
+    background-color: var(--tab-hover);
 }
 
 .active:hover {
-    background-color: gainsboro;
+    background-color: var(--tab-active-hover);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+}
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }

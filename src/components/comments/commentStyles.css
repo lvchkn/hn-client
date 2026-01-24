@@ -1,35 +1,20 @@
-.comment-text {
-    padding-bottom: 10px;
-    padding-left: 50px;
-    padding-top: 5px;
-    color: dimgray;
-    font-size: 20px;
-    font-weight: 300;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 .author {
     font-size: 20px;
     font-weight: 600;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.kid-comment {
-    padding-left: 25px;
+    color: var(--text-color);
 }
 
 .transparent-button {
     background: none;
     border: none;
-    padding: 0;
     cursor: pointer;
-    padding-top: 15px;
+    padding-top: 10px;
 }
 
 .circle {
     width: 10px;
     height: 10px;
-    background-color: grey;
+    background-color: var(--dim-text);
     border-radius: 50%;
     margin-right: 5px;
 }
@@ -37,5 +22,119 @@
 .button-content {
     display: flex;
     align-items: center;
-    margin-left: 35px;
+    justify-content: space-around;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.comment-id {
+    align-items: flex-end;
+}
+
+.comment-thread {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.comment-container {
+    font-family: Arial, Helvetica, sans-serif;
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.comment {
+    display: flex;
+    position: relative;
+}
+
+.collapse-line {
+    position: absolute;
+    width: 20px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.collapse-line::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    width: 2px;
+    background-color: var(--border-color);
+}
+
+.collapse-line:hover::before {
+    background-color: #ff6600;
+    /* HN Orange */
+    width: 3px;
+}
+
+.comment-content {
+    flex: 1;
+    padding: 12px;
+    padding-left: 32px;
+    /* Space for the collapse line */
+    border-radius: 4px;
+    background-color: var(--secondary-color);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-color);
+}
+
+.comment-text {
+    margin-bottom: 12px;
+    color: var(--text-color);
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.comment-text a {
+    color: var(--primary-color);
+    text-decoration: underline;
+}
+
+.replies {
+    padding-left: 20px;
+    position: relative;
+}
+
+.collapsed .comment-content {
+    padding-bottom: 0;
+}
+
+.collapsed-info {
+    font-size: 14px;
+    color: var(--dim-text);
+    margin-left: 8px;
+    font-weight: normal;
+}
+
+/* This makes the vertical line continue through nested comments */
+/* .replies::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 10px;
+    width: 2px;
+    background-color: #ccc;
+} */
+
+.comment-thread-line {
+    position: absolute;
+    top: 0;
+    left: 10px;
+    bottom: 0;
+    width: 20px;
+    z-index: 5;
 }

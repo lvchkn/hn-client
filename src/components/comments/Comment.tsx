@@ -1,71 +1,88 @@
 import { useState } from "react";
 import { decodeHtml } from "../../utils/htmlDecoder";
 import { IComment } from "../../interfaces/comment";
-import { getKidCommentsCount } from "../../utils/commentsCounter";
+import { getRepliesCount } from "../../utils/commentsCounter";
 import "./commentStyles.css";
 
 export interface CommentProps {
     id: number;
     author: string;
     text: string;
-    kidComments: IComment[];
+    replies: IComment[];
 }
 
 export const Comment = (props: CommentProps) => {
-    const [showCommentsTree, setShowCommentsTree] = useState<boolean>(true);
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+    const [isRepliesHidden, setIsRepliesHidden] = useState<boolean>(false);
 
-    const handleShowCommentsTreeChange = () => {
-        setShowCommentsTree(!showCommentsTree);
+    const toggleCollapse = () => {
+        setIsCollapsed(!isCollapsed);
     };
 
-    const commentsCount = getKidCommentsCount({
-        kidComments: props.kidComments ?? [],
+    const toggleReplies = () => {
+        setIsRepliesHidden(!isRepliesHidden);
+    };
+
+    const hasReplies = props.replies && props.replies.length > 0;
+
+    const totalCommentsCount = getRepliesCount({
+        replyObjects: props.replies ?? [],
     } as IComment);
 
-    const replyGrammar = commentsCount % 10 === 1 ? "reply" : "replies";
-    const closedCommentsTreeText = `Show comment and ${commentsCount} ${replyGrammar}`;
+    const replyGrammar = totalCommentsCount % 10 === 1 ? "reply" : "replies";
+    const collapsedText = isCollapsed
+        ? `Show comment and ${totalCommentsCount} ${replyGrammar}`
+        : `${props.author}`;
 
-    return showCommentsTree ? (
-        <div>
-            <button
-                className="transparent-button"
-                onClick={handleShowCommentsTreeChange}
-            >
-                <div className="button-content">
-                    <div className="circle "></div>
-                    <span className="author">
-                        {props.author} ({props.id})
-                    </span>
-                </div>
-            </button>
+    return (
+        <div className={`comment-container ${isCollapsed ? "collapsed" : ""}`}>
+            <div className="comment">
+                <div className="collapse-line" onClick={toggleReplies}></div>
 
-            <div className="comment-text">{decodeHtml(props.text)}</div>
-
-            {props.kidComments?.map((kid) => {
-                return (
-                    <div key={kid.id} className="kid-comment">
-                        <Comment
-                            key={kid.id}
-                            id={kid.id}
-                            author={kid.by}
-                            text={kid.text}
-                            kidComments={kid.kidComments}
-                        />
+                <div className="comment-content">
+                    <div className="comment-header">
+                        <button
+                            className="transparent-button"
+                            onClick={toggleCollapse}
+                        >
+                            <div className="button-content">
+                                <span className="circle"></span>
+                                <span className="author">{collapsedText}</span>
+                                {!isCollapsed && (
+                                    <span className="comment-id">
+                                        {props.id}
+                                    </span>
+                                )}
+                                {isCollapsed && (
+                                    <span className="collapsed-info">
+                                        (collapsed)
+                                    </span>
+                                )}
+                            </div>
+                        </button>
                     </div>
-                );
-            })}
-        </div>
-    ) : (
-        <div>
-            <button
-                className="transparent-button"
-                onClick={handleShowCommentsTreeChange}
-            >
-                <div className="button-content">
-                    <div className="circle"></div>
-                    <span className="author">{closedCommentsTreeText}</span>
+
+                    {!isCollapsed && (
+                        <div className="comment-text">
+                            {decodeHtml(props.text)}
+                        </div>
+                    )}
                 </div>
-            </button>
+            </div>
+
+            {hasReplies && !isCollapsed && !isRepliesHidden && (
+                <div className="replies">
+                    {props.replies.map((reply) => (
+                        <Comment
+                            key={reply.id}
+                            id={reply.id}
+                            author={reply.by}
+                            text={reply.text}
+                            replies={reply.replyObjects}
+                        />
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

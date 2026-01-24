@@ -2,6 +2,7 @@
 const { merge } = require("webpack-merge");
 const common = require("./webpack.common");
 const webpack = require("webpack");
+const CompressionPlugin = require("compression-webpack-plugin");
 
 module.exports = merge(common, {
     mode: "production",
@@ -30,5 +31,28 @@ module.exports = merge(common, {
                 "https://www.myhnfeed.com"
             ),
         }),
+        new CompressionPlugin({
+            algorithm: "gzip",
+            test: /\.(js|css|html)$/,
+        }),
+        new CompressionPlugin({
+            algorithm: "brotliCompress",
+            test: /\.(js|css|html|svg)$/,
+            compressionOptions: {
+                level: 11,
+            },
+        }),
     ],
+    optimization: {
+        splitChunks: {
+            chunks: "all",
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: "vendors",
+                    chunks: "all",
+                },
+            },
+        },
+    },
 });

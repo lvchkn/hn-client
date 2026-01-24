@@ -18,8 +18,8 @@ export const Story = (props: StoryProps) => {
     const buttonText = isLoading
         ? "Loading..."
         : showComments
-        ? "Hide comments"
-        : "Show comments";
+          ? "Hide comments"
+          : "Show comments";
 
     const hasTags = props.tags && props.tags.length > 0;
 
@@ -73,7 +73,7 @@ export const Story = (props: StoryProps) => {
             {showComments && (
                 <CommentsList
                     storyId={props.id}
-                    kids={props.kids}
+                    replies={props.kids}
                     handleLoadingStatusChange={handleLoadingStatusChange}
                     showComments={showComments}
                 ></CommentsList>

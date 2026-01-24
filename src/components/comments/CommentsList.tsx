@@ -7,7 +7,7 @@ import { sortComments } from "../../utils/sorter";
 
 export interface CommentsListProps {
     storyId: number;
-    kids: number[];
+    replies: number[];
     showComments: boolean;
     handleLoadingStatusChange: (isLoading: boolean) => void;
 }
@@ -15,7 +15,7 @@ export interface CommentsListProps {
 export const CommentsList = (props: CommentsListProps) => {
     const query = useQuery<IComment[], Error>({
         queryKey: [props.storyId],
-        queryFn: () => traverseComments(props.kids),
+        queryFn: () => traverseComments(props.replies),
         enabled: props.showComments,
         staleTime: 30_000 * 60,
     });
@@ -29,7 +29,7 @@ export const CommentsList = (props: CommentsListProps) => {
     return (
         <>
             {sortedComments?.map((comment: IComment) => {
-                const { id, by, text, kidComments } = comment;
+                const { id, by, text, replyObjects } = comment;
 
                 return (
                     <Comment
@@ -37,7 +37,7 @@ export const CommentsList = (props: CommentsListProps) => {
                         id={id}
                         author={by}
                         text={text}
-                        kidComments={kidComments}
+                        replies={replyObjects}
                     ></Comment>
                 );
             })}
