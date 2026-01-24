@@ -1,17 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./cookieBanner.css";
 
 const COOKIE_CONSENT_KEY = "cookie-consent";
 
 export const CookieBanner = () => {
-    const [isVisible, setIsVisible] = useState<boolean>(false);
-
-    useEffect(() => {
-        const consent: string | null = localStorage.getItem(COOKIE_CONSENT_KEY);
-        if (!consent || consent !== "true") {
-            setIsVisible(true);
-        }
-    }, []);
+    const [isVisible, setIsVisible] = useState<boolean>(() => {
+        const consent = localStorage.getItem(COOKIE_CONSENT_KEY);
+        return !consent || consent !== "true";
+    });
 
     const handleAccept = () => {
         localStorage.setItem(COOKIE_CONSENT_KEY, "true");

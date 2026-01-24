@@ -85,6 +85,8 @@ describe("sorter utils", () => {
                     kids: [],
                     replyObjects: [],
                     text: "t1",
+                    parent: 0,
+                    deleted: false,
                 },
                 {
                     id: 2,
@@ -94,6 +96,8 @@ describe("sorter utils", () => {
                     kids: [],
                     replyObjects: [],
                     text: "t2",
+                    parent: 0,
+                    deleted: false,
                 },
                 {
                     id: 3,
@@ -103,8 +107,10 @@ describe("sorter utils", () => {
                     kids: [],
                     replyObjects: [],
                     text: "t3",
+                    parent: 0,
+                    deleted: false,
                 },
-            ] as any;
+            ];
 
             const sorted = sortComments(mockComments);
             expect(sorted[0].time).toBe(200);

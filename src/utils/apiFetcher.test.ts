@@ -19,7 +19,7 @@ describe("apiFetcher", () => {
                 stories: [mockStory],
             };
 
-            (fetch as any).mockResolvedValueOnce({
+            (fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
                 json: () => Promise.resolve(mockPagedObject),
                 status: 200,
             });
@@ -57,7 +57,7 @@ describe("apiFetcher", () => {
                 kids: [],
             };
 
-            (fetch as any)
+            (fetch as ReturnType<typeof vi.fn>)
                 .mockResolvedValueOnce({
                     json: () => Promise.resolve(mockComment),
                 })
@@ -82,7 +82,7 @@ describe("apiFetcher", () => {
                 parent: 101,
             };
 
-            (fetch as any).mockResolvedValueOnce({
+            (fetch as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
                 json: () => Promise.resolve(mockDeleted),
             });
 

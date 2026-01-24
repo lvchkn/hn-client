@@ -18,8 +18,8 @@ export interface AuthProps {
     children: ReactNode;
 }
 
-const AuthContext = createContext({} as AuthContext);
-export const useAuth = () => useContext(AuthContext);
+const AuthCtx = createContext({} as AuthContext);
+export const useAuth = () => useContext(AuthCtx);
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
@@ -29,18 +29,20 @@ export const AuthProvider = (props: AuthProps) => {
         name: "Unauthorized",
     });
 
-    const getUser = async () => {
-        const response = await fetch(`${BASE_URL}/userinfo`, {
-            credentials: "include",
-        });
-        const json = await response.json();
-
-        setIsAuthenticated(json.isAuthenticated);
-        json.isAuthenticated && setUser({ name: json.name });
-    };
-
     useEffect(() => {
-        process.env.REACT_APP_AUTH_ENABLED && getUser();
+        const getUser = async () => {
+            const response = await fetch(`${BASE_URL}/userinfo`, {
+                credentials: "include",
+            });
+            const json = await response.json();
+
+            setIsAuthenticated(json.isAuthenticated);
+            json.isAuthenticated && setUser({ name: json.name });
+        };
+
+        if (process.env.REACT_APP_AUTH_ENABLED) {
+            getUser();
+        }
     }, []);
 
     const login = () => {
@@ -52,7 +54,7 @@ export const AuthProvider = (props: AuthProps) => {
     };
 
     return (
-        <AuthContext.Provider
+        <AuthCtx.Provider
             value={{
                 isAuthenticated,
                 user,
@@ -61,6 +63,6 @@ export const AuthProvider = (props: AuthProps) => {
             }}
         >
             {props.children}
-        </AuthContext.Provider>
+        </AuthCtx.Provider>
     );
 };
